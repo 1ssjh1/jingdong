@@ -13,14 +13,16 @@
 
 
 
-| status | data               | 解释               |
-| ------ | ------------------ | ------------------ |
-| false  | “用户名不能为空”   | nickname为空       |
-| false  | “用户名过长”       | nickname超过12字节 |
-| false  | "用户名过短"       | nickname小于6字节  |
-| false  | “密码过长”         | password超过12字节 |
-| false  | “密码过短”         | password小于6字节  |
-| false  | “手机号已经被注册” | phone已经被注册    |
-| false  | “手机号为空”       | phone为空          |
-| ture   | “1”                | 参数正确           |
+| status | data             | 解释               |
+| ------ | ---------------- | ------------------ |
+| false  | 用户名不能为空   | nickname为空       |
+| false  | 用户名过长       | nickname超过12字节 |
+| false  | 用户名过短       | nickname小于6字节  |
+| false  | 密码过长         | password超过12字节 |
+| false  | 密码过短         | password小于6字节  |
+| false  | 手机号已经被注册 | phone已经被注册    |
+| false  | 手机号为空       | phone为空          |
+| ture   | 1                | 参数正确           |
+
+
 
