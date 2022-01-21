@@ -1,8 +1,8 @@
 package main
 
 import (
-	"Goto/router"
-	"Goto/dao"
+	"jingdong/dao"
+	"jingdong/router"
 )
 func main() {
 	dao.MysqlInit()
