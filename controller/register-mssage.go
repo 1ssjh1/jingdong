@@ -1,30 +1,26 @@
 package controller
 
 import (
-	"Goto/models"
-	"Goto/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"jingdong/utils"
 )
 
-func SendMessage(c *gin.Context){
-	number:=c.Param("Phone")
-	ok,code :=utils.Sendsms(number)
-
-	if!ok{
-		c.JSON(200,gin.H{
-			"state":"false",
-			"msg":code,
+func SendMessage(c *gin.Context) {
+	number := c.Query("number")
+	//number:=c.PostForm("number")
+	fmt.Println(number)
+	ok, code := utils.Sendsms(number)
+	if !ok {
+		c.JSON(200, gin.H{
+			"state": "false",
+			"msg":   code,
 		})
 		return
 	}
-	var codes models.Message
-	codes.Send=code
-	c.JSON(200,gin.H{
-		"state":"true",
-		"msg":code,
+
+	c.JSON(200, gin.H{
+		"state": "true",
+		"msg":   "短信发送成功",
 	})
-	return
 }
-
-
-
