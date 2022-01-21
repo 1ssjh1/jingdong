@@ -1,0 +1,3 @@
+# Goto/controller
+controller\register.go:13:26: undefined: number
+controller\register.go:37:10: no new variables on left side of :=
