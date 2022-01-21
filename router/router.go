@@ -1,9 +1,9 @@
 package router
 
 import (
-	"Goto/controller"
-	"Goto/hander"
 	"github.com/gin-gonic/gin"
+	"jingdong/controller"
+	"jingdong/hander"
 )
 
 func Entrance()  {
@@ -12,6 +12,6 @@ func Entrance()  {
 	r.POST("/register-message",controller.SendMessage)
 	r.POST("/register",controller.Register)
 	r.POST("/login",controller.Login)
-	r.Run()
+	r.Run(":80")
 
 }
