@@ -9,7 +9,7 @@ import (
 var DB *sql.DB
 
 func MysqlInit() *sql.DB {
-	Dns := "sianao:Simple2002@tcp(110.42.216.125:3306)/sql_test"
+	Dns := "anao:Sle22@tcp(110.42.216.125:3306)/sql_test"
 	db ,err :=sql.Open("mysql",Dns)
 	if err != nil {
 		fmt.Println(err)
