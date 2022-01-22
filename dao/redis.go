@@ -1,28 +1,34 @@
 package dao
 
 import (
-	"context"
-	"fmt"
-	"github.com/go-redis/redis/v8"
+	//"context"
+	redigo "github.com/gomodule/redigo/redis"
 	"time"
 )
 
-// RDB var ctx = context.Background()
-// 声明一个全局的rdb变量
-var RDB *redis.Client
-
-func RedisClient() *redis.Client {
-	rdb := redis.NewClient(&redis.Options{
-		Addr:     "localhost:6379",
-		Password: "", // no password set
-		DB:       0,  // use default DB
-	})
-	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
-	defer cancel()
-	_, err := rdb.Ping(ctx).Result()
-	if err != nil {
-		fmt.Println(err)
+func PoolInitRedis() *redigo.Pool {
+	server := "localhost:6379"
+	password := ""
+	return &redigo.Pool{
+		MaxIdle:     2, //空闲数
+		IdleTimeout: 240 * time.Second,
+		MaxActive:   3, //最大数
+		Dial: func() (redigo.Conn, error) {
+			c, err := redigo.Dial("tcp", server)
+			if err != nil {
+				return nil, err
+			}
+			if password != "" {
+				if _, err := c.Do("AUTH", password); err != nil {
+					c.Close()
+					return nil, err
+				}
+			}
+			return c, err
+		},
+		TestOnBorrow: func(c redigo.Conn, t time.Time) error {
+			_, err := c.Do("PING")
+			return err
+		},
 	}
-	RDB = rdb
-	return RDB
 }
