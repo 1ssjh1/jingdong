@@ -1,39 +1,31 @@
 package utils
 
 import (
-	"context"
-	"fmt"
-	"github.com/go-redis/redis/v8"
+	"github.com/gomodule/redigo/redis"
 	"jingdong/dao"
 )
 
 func SetCk(n string, x string) bool {
-	ctx := context.Background()
-	if err := dao.RedisClient(); err != nil {
-		return false
-	}
-	err := dao.RDB.Set(ctx, n, x, 300).Err()
+
+	c := dao.PoolInitRedis().Get()
+	defer c.Close()
+	_, err := c.Do("SET", n, x, "EX", 300)
 	if err != nil {
-		fmt.Println(err)
+		return false
 	}
 	return true
 }
 func GetCk(n string, s string) (bool, string) {
-	ctx := context.Background()
-	if err := dao.RedisClient(); err != nil {
-		return false, "错误"
+	//取出来rediis 连接
+	c := dao.PoolInitRedis().Get()
+	//
+	v, err := redis.String(c.Do("GET", n))
+	if err == redis.ErrNil {
+		return false, "验证码超时"
 	}
-	val, err := dao.RDB.Get(ctx, n).Result()
-	if err == redis.Nil {
-		return false, "参数不存在"
-	}
-	if n != val {
+	if v != s {
 		return false, "验证码错误"
 	}
-	if val != s {
-		return false, "验证码错误"
-	}
-
-	return true, "验证成功"
+	return true, "验证码正确"
 
 }
