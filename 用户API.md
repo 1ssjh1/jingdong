@@ -85,6 +85,7 @@
 | false | 你还没注册登录个屁 | 用户未注册        |
 | false | 密码错误           | 无                |
 | true  | " "         | 可以开心的Happy了 |
+<<<<<<< HEAD
  ### 退出登录
 `method Get url /logout`
 
@@ -157,6 +158,7 @@
 |false|用户信息不匹配|身份校验失败|
 |false|充值失败|数据库操作失败|
 |true|充值成功|
+
 
 
 
