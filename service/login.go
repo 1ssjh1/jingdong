@@ -1,15 +1,21 @@
 package service
 
 import (
-	"Goto/models"
-	"Goto/dao"
+	"github.com/gin-gonic/gin"
+	"jingdong/dao"
+	"jingdong/hander"
+	"jingdong/models"
 )
 
-func Login(u models.Login) (bool,string) {
-	ok,sate :=dao.Login(u)
+func Login(u models.Login, c *gin.Context) (bool, string, string) {
+	ok, sate := dao.Login(u)
 	if ok {
-
+		code := hander.Login(c, u)
+		return true, sate, code
 	}
-	return ok,sate
-
+	return false, sate, ""
+}
+func Admin(name string, word string) (bool, string) {
+	ok, state := dao.AdminLogin(name, word)
+	return ok, state
 }

@@ -1,6 +1,7 @@
 package dao
 
 import (
+	"fmt"
 	//"context"
 	redigo "github.com/gomodule/redigo/redis"
 	"time"
@@ -27,7 +28,8 @@ func PoolInitRedis() *redigo.Pool {
 			return c, err
 		},
 		TestOnBorrow: func(c redigo.Conn, t time.Time) error {
-			_, err := c.Do("PING")
+			Pong, err := c.Do("PING")
+			fmt.Println(Pong)
 			return err
 		},
 	}

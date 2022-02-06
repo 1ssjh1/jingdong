@@ -9,8 +9,8 @@ import (
 var DB *sql.DB
 
 func MysqlInit() *sql.DB {
-	Dns := "anao:Sle22@tcp(110.42.216.125:3306)/sql_test"
-	db ,err :=sql.Open("mysql",Dns)
+	Dns := ""
+	db, err := sql.Open("mysql", Dns)
 	if err != nil {
 		fmt.Println(err)
 	}
@@ -20,11 +20,7 @@ func MysqlInit() *sql.DB {
 	}
 	db.SetMaxIdleConns(10)
 	//defer db.Close()
-	DB=db
+	DB = db
 	return DB
 
-
 }
-
-
-

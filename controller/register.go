@@ -1,9 +1,11 @@
 package controller
 
 import (
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"jingdong/models"
 	"jingdong/service"
+	"jingdong/utils"
 )
 
 func Register(c *gin.Context) {
@@ -32,4 +34,22 @@ func Register(c *gin.Context) {
 	})
 	return
 
+}
+
+func SendMessage(c *gin.Context) {
+	number := c.Query("Phone")
+	fmt.Println(number)
+	ok, code := utils.Sendsms(number)
+	if !ok {
+		c.JSON(200, gin.H{
+			"state": "false",
+			"msg":   code,
+		})
+		return
+	}
+
+	c.JSON(200, gin.H{
+		"state": "true",
+		"msg":   "短信发送成功",
+	})
 }
