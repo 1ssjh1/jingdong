@@ -161,7 +161,7 @@
 
 ### 查看订单
 
-`method GET url:/user/order form-date`
+`method POST url:/user/order form-date`
 
 请求参数
 
@@ -249,7 +249,7 @@
 
 ### 获取所有商品信息
 
-`method GET url: /shop/all  form 表单` 
+`method POST url: /shop/all  form 表单` 
 
 请求内容
 
@@ -263,7 +263,8 @@
 |state| 状态                        |
 |msg| 信息(请求正确时返回所有商品信息，失败返回失败原因）|
 
-#### msg 详解
+msg 详解
+
 ``` 
 
 [ 
@@ -471,7 +472,7 @@ lunbo002:{
 
 ```
 
-## 用户主界面
+### 用户主界面
 
 ` url :/user/    method :  GET     form-date`
 
@@ -560,7 +561,7 @@ lunbo002:{
 }
 ```
 
- ## 找回密码
+### 找回密码
 
 ` url :/find   methed POST  form-date` 
 
@@ -592,3 +593,282 @@ lunbo002:{
 | false | 密码不能和原来的相同哦         |      |
 | true  |                                |      |
 
+### 首页展示
+
+~~~
+url : /show  method :Get 
+// 无请求参数
+返回示例
+{
+    "msg": {
+        "All": [
+            {
+                "Gid": 1,
+                "Name": "快乐",
+                "Url": "https://sanser.ltd/static/f's'd",
+                "Type": "ghfd",
+                "Price": 100,
+                "Sales": 100,
+                "Commit": 1,
+                "Grate": 100,
+                "Introduce": "售卖快乐"
+            },
+            {
+                "Gid": 2,
+                "Name": "快乐水",
+                "Url": "https://sanser.ltd/static/t're",
+                "Type": "hgf",
+                "Price": 200,
+                "Sales": 1200,
+                "Commit": 100,
+                "Grate": 95,
+                "Introduce": "快乐水"
+            },
+            {
+                "Gid": 3,
+                "Name": "fsadfa",
+                "Url": "https://sanser.ltd/static/654",
+                "Type": "hgf",
+                "Price": 534,
+                "Sales": 52,
+                "Commit": 52,
+                "Grate": 52,
+                "Introduce": "股市大幅改善"
+            },
+            {
+                "Gid": 4,
+                "Name": "rog全家桶 一套",
+                "Url": "https://sanser.ltd/static/1645017515.webp",
+                "Type": "京东秒杀",
+                "Price": 8888,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "ROG幻16 16英寸设计师高性能游戏笔记本电脑(i7-12700H"
+            },
+            {
+                "Gid": 5,
+                "Name": "施华洛世奇项链",
+                "Url": "https://sanser.ltd/static/1645019976.webp",
+                "Type": "京东秒杀",
+                "Price": 520,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "SPARKLING DC项链情人节礼物送女友"
+            },
+            {
+                "Gid": 6,
+                "Name": "RedRock 5G手机",
+                "Url": "https://sanser.ltd/static/1645020051.webp",
+                "Type": "京东秒杀",
+                "Price": 1,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "22.5W超级快充 6nm 5G疾速芯 全网通版 6G+128G"
+            },
+            {
+                "Gid": 7,
+                "Name": "表情包0",
+                "Url": "https://sanser.ltd/static/1645020169.jpg",
+                "Type": "精选部分",
+                "Price": 888,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "象征redrock的压迫感"
+            },
+            {
+                "Gid": 8,
+                "Name": "表情包1",
+                "Url": "https://sanser.ltd/static/1645020204.jpg",
+                "Type": "精选部分",
+                "Price": 888,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "象征达超导师的帅气"
+            },
+            {
+                "Gid": 9,
+                "Name": "表情包2",
+                "Url": "https://sanser.ltd/static/1645020228.jpg",
+                "Type": "精选部分",
+                "Price": 888,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "象征兴兴学姐的温柔"
+            },
+            {
+                "Gid": 10,
+                "Name": "表情包3",
+                "Url": "https://sanser.ltd/static/1645020247.jpg",
+                "Type": "精选部分",
+                "Price": 888,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "象征文轩导师的负责"
+            },
+            {
+                "Gid": 11,
+                "Name": "表情包4",
+                "Url": "https://sanser.ltd/static/1645020267.jpg",
+                "Type": "精选部分",
+                "Price": 888,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "象征闻捷姐姐的温柔"
+            },
+            {
+                "Gid": 12,
+                "Name": "表情包5",
+                "Url": "https://sanser.ltd/static/1645020287.jpg",
+                "Type": "精选部分",
+                "Price": 888,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "象征佳俊导师的认真"
+            },
+            {
+                "Gid": 13,
+                "Name": "可乐",
+                "Url": "https://sanser.ltd/static/1645020368.jpg",
+                "Type": "美食部分",
+                "Price": 5490,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "肥仔快乐"
+            },
+            {
+                "Gid": 14,
+                "Name": "可口小番茄",
+                "Url": "https://sanser.ltd/static/1645020406.webp",
+                "Type": "美食部分",
+                "Price": 77,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "健康轻食千禧西红柿小番茄口感圣女果水"
+            },
+            {
+                "Gid": 15,
+                "Name": "机械键盘",
+                "Url": "https://sanser.ltd/static/1645020456.webp",
+                "Type": "百货部分",
+                "Price": 678,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "粉色少女心，满足你的幻想"
+            },
+            {
+                "Gid": 16,
+                "Name": "UFO",
+                "Url": "https://sanser.ltd/static/1645020476.webp",
+                "Type": "百货部分",
+                "Price": 77,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "UFO魔术悬浮球反重力黑科技魔法棒"
+            },
+            {
+                "Gid": 17,
+                "Name": "YSL精选口红",
+                "Url": "https://sanser.ltd/static/1645020524.webp",
+                "Type": "个护部分",
+                "Price": 999,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "YSL口红全新烈艳蓝金唇膏哑光"
+            },
+            {
+                "Gid": 18,
+                "Name": "fufu",
+                "Url": "https://sanser.ltd/static/1645020558.png",
+                "Type": "个护部分",
+                "Price": 888,
+                "Sales": 0,
+                "Commit": 0,
+                "Grate": 100,
+                "Introduce": "fufu 初音未来玩偶 哔哩哔哩 毛绒玩偶公仔娃娃靠枕国产版 公服式 32厘米"
+            }
+        ]
+    },
+    "state": true
+}
+~~~
+
+
+
+### 用户头像更新
+
+
+
+` url : /user/image method :PUT form-date` 
+
+| 请求参数 | 说明            |
+| -------- | --------------- |
+| image    | 头像文件 5M以内 |
+
+返回参数
+
+| 返回参数 | 说明     |
+| -------- | -------- |
+| state    | 状态     |
+| msg      | 反馈信息 |
+|          |          |
+
+返回实例
+
+| state | msg                   |
+| ----- | --------------------- |
+| false | 参数绑定失败          |
+| false | 参数缺失              |
+| false | 文件过大 换个小点的吧 |
+| false | 文件保存失败          |
+| true  | 文件上传成功          |
+
+### 提交评论
+
+` url  :/user/commit method POST form-date`
+
+请求参数
+
+| 请求参数 | 说明   |
+| -------- | ------ |
+| oid      | 订单id |
+| commit   | 评论   |
+|          |        |
+
+返回参数
+
+| 返回参数 | 说明     |
+| -------- | -------- |
+| state    | 状态     |
+| msg      | 反馈信息 |
+
+返回实例
+
+| state | msg          |
+| ----- | ------------ |
+| false | 参数绑定失败 |
+| false | 参数缺失     |
+| false | 评论提交失败 |
+| false | 商品状态错误 |
+| true  | 评论提交成功 |
+
+### 获取评论
+
+~~~go
+url :/shop/commit?gid=? method:GET   
+~~~
+
+//这个接口有问题 还需要修整
