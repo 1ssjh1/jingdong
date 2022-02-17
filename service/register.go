@@ -1,12 +1,12 @@
 package service
 
 import (
-	"jingdong/dao"
-	"jingdong/models"
-	"jingdong/utils"
+	"JD/dao"
+	"JD/models"
+	"JD/utils"
 )
 
-func Register(c models.Register) (bool, string) {
+func Register(c models.Register) (bool, error) {
 
 	ok, err := utils.GetCk(c.Number, c.Code)
 	if !ok {

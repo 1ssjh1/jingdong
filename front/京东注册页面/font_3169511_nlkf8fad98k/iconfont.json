@@ -1,0 +1,51 @@
+{
+  "id": "3169511",
+  "name": "京东注册",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon-",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "780044",
+      "name": "红包",
+      "font_class": "hongbao",
+      "unicode": "e6da",
+      "unicode_decimal": 59098
+    },
+    {
+      "icon_id": "3868273",
+      "name": "警告",
+      "font_class": "jinggao",
+      "unicode": "eb65",
+      "unicode_decimal": 60261
+    },
+    {
+      "icon_id": "317865",
+      "name": "京东logo",
+      "font_class": "jingdonglogo",
+      "unicode": "e67e",
+      "unicode_decimal": 59006
+    },
+    {
+      "icon_id": "1304895",
+      "name": "用户-圆",
+      "font_class": "yonghu-yuan",
+      "unicode": "e623",
+      "unicode_decimal": 58915
+    },
+    {
+      "icon_id": "6231395",
+      "name": "海外",
+      "font_class": "haiwai",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "18166714",
+      "name": "支付,京东",
+      "font_class": "pay-jingdong",
+      "unicode": "e8dd",
+      "unicode_decimal": 59613
+    }
+  ]
+}

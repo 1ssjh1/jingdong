@@ -1,101 +1,118 @@
 package controller
 
 import (
+	"JD/dao"
+	"JD/models"
+	"JD/utils"
+	"fmt"
 	_ "fmt"
 	"github.com/gin-gonic/gin"
-	"jingdong/dao"
-	"jingdong/models"
-	"jingdong/utils"
 )
 
 func AllShop(c *gin.Context) {
 	var user models.User
-	err := c.ShouldBind(&user)
+	Info, exist := c.Get("Info")
+	if !exist {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
-			"msg":   "参数错误",
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
-	cookie, _ := c.Cookie("Userinfo")
-	ok := utils.ParseToken(user.Token, cookie)
-	if ok {
-
-		slice := dao.AllShops()
+	user.BasicInfo = BasicInfo
+	slice := dao.AllShops()
+	if slice == nil {
 		c.JSON(200, gin.H{
-			"state": true,
-			"msg":   slice,
+			"state": false,
 		})
 		return
 	}
-
 	c.JSON(200, gin.H{
-		"state": ok,
-		"msg":   "身份验证失败",
+		"state": true,
+		"msg":   *slice,
 	})
 	return
 }
+
 func Chart(c *gin.Context) {
-	var Chart models.ShopChart
+	var Chart models.AddChart
 	err := c.ShouldBind(&Chart)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
-			"msg":   "参数绑定错误",
+			"state": false,
+			"msg":   "参数绑定失败",
 		})
 		return
 	}
-	cookie, _ := c.Cookie("Userinfo")
-	ok := utils.ParseToken(Chart.Token, cookie)
-	if ok {
+	Info, exist := c.Get("Info")
+	if !exist {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
 
-		ok, state := dao.AddChart(Chart)
-		if !ok {
-			c.JSON(200, gin.H{
-				"state": ok,
-				"msg":   state,
-			})
-			return
-		}
+	Chart.BasicInfo = BasicInfo
+	ok, state := dao.AddChart(Chart)
+	if !ok {
 		c.JSON(200, gin.H{
 			"state": ok,
 			"msg":   state,
 		})
 		return
 	}
-	c.JSON(200, gin.H{
-		"state": ok,
-		"msg":   "身份验证失败",
-	})
-	return
 
 }
+
 func Update(c *gin.Context) {
 	var chart models.ShopChart
 	err := c.ShouldBind(&chart)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
-			"msg":   "参数绑定错误",
+			"state": false,
+			"msg":   "参数绑定失败",
 		})
 		return
 	}
-	cookie, _ := c.Cookie("Userinfo")
-	ok := utils.ParseToken(chart.Token, cookie)
-	if ok {
-		ok, state := dao.UpdateChart(chart)
-
+	Info, exist := c.Get("Info")
+	if !exist {
 		c.JSON(200, gin.H{
-			"state": ok,
-			"msg":   state,
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
-
 	}
+
+	chart.BasicInfo = BasicInfo
+
+	//这里后面改一下
+
+	ok, state := dao.UpdateChart(chart)
 	c.JSON(200, gin.H{
-		"state": "false",
-		"msg":   "身份验证失败",
+		"state": ok,
+		"msg":   state,
 	})
 	return
 
@@ -103,36 +120,36 @@ func Update(c *gin.Context) {
 
 func AllChart(c *gin.Context) {
 	var UserInfo models.Userinfo
-	err := c.ShouldBind(&UserInfo)
+	Info, exist := c.Get("Info")
+	if !exist {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
-			"msg":   "参数绑定错误",
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
-	cookie, _ := c.Cookie("Userinfo")
-	ok := utils.ParseToken(UserInfo.Token, cookie)
-	if ok {
 
-		ok, state := dao.AllChart(UserInfo)
-		if !ok {
-			c.JSON(200, gin.H{
-				"state": ok,
-				"msg":   "查询失败",
-			})
-		}
+	UserInfo.BasicInfo = BasicInfo
+	msg, err := dao.AllChart(UserInfo)
+	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "true",
-			"msg":   state,
+			"state": false,
+			"msg":   err.Error(),
 		})
-		return
 	}
 	c.JSON(200, gin.H{
-		"state": ok,
-		"msg":   "身份验证失败",
+		"state": "true",
+		"msg":   *msg,
 	})
 	return
+
 }
 
 func MakeOrder(c *gin.Context) {
@@ -140,53 +157,69 @@ func MakeOrder(c *gin.Context) {
 	err := c.ShouldBind(&Oder)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
-			"msg":   "参数绑定错误",
-		})
-	}
-	cookie, _ := c.Cookie("Userinfo")
-	ok := utils.ParseToken(Oder.Token, cookie)
-	if ok {
-		ok, state := dao.MakeOrder(Oder)
-		c.JSON(200, gin.H{
-			"state": ok,
-			"msg":   state,
+			"state": false,
+			"msg":   "参数绑定失败",
 		})
 		return
 	}
+	Info, exist := c.Get("Info")
+	if !exist {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
+	Oder.BasicInfo = BasicInfo
+	ok, state := dao.MakeOrder(Oder)
 	c.JSON(200, gin.H{
 		"state": ok,
-		"msg":   "身份验证失败",
+		"msg":   state,
 	})
 	return
 }
+
 func GetCommit(c *gin.Context) {
 
-	var (
-		commit models.Commits
-	)
-	err := c.ShouldBind(&commit)
+	var commit models.Commits
+	//err := c.ShouldBind(&commit)
+	//if err != nil {
+	//	c.JSON(200, gin.H{
+	//		"state": false,
+	//		"msg":   "参数绑定失败",
+	//	})
+	//	return
+	//}
+	commit.Gid = c.Query("gid")
+	fmt.Println(commit.Gid)
+	Info, exist := c.Get("Info")
+	if !exist {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
-			"msg":   "参数错误",
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
-	cookie, _ := c.Cookie("Userinfo")
-	ok := utils.ParseToken(commit.Token, cookie)
-	if !ok {
-		c.JSON(200, gin.H{
-			"state": "false",
-			"msg":   "身份验证错误",
-		})
-		return
-	}
-	Allcommit := dao.GetCommit(commit)
-	if Allcommit != nil {
+	commit.BasicInfo = BasicInfo
+	AllCommit := dao.GetCommit(commit)
+	if AllCommit != nil {
 		c.JSON(200, gin.H{
 			"state":  "true",
-			"commit": *Allcommit,
+			"commit": *AllCommit,
 		})
 		return
 	}
@@ -195,4 +228,18 @@ func GetCommit(c *gin.Context) {
 		"msg":   "操作失败",
 	})
 
+}
+func Show(c *gin.Context) {
+	msg, err := dao.Class()
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"state": true,
+		"msg":   *msg,
+	})
 }

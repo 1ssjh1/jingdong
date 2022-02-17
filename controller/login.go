@@ -1,11 +1,12 @@
 package controller
 
 import (
+	"JD/dao"
+	"JD/models"
+	"JD/service"
+	"JD/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
-)
-import (
-	"jingdong/models"
-	"jingdong/service"
 )
 
 func Login(c *gin.Context) {
@@ -13,48 +14,25 @@ func Login(c *gin.Context) {
 	err := c.ShouldBind(&u)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
+			"state": false,
 			"msg":   "参数绑定失败",
 		})
 		return
 	}
-	ok, state, code := service.Login(u, c)
-	if ok {
-		//c.SetCookie("userinfo", u.Username, 3600, "/", "localhost", false, true)
+	ok, err, code := service.Login(u, c)
+	if err != nil {
 		c.JSON(200, gin.H{
 			"state": ok,
-			"msg":   state,
-			"Token": code,
+			"msg":   err.Error(),
 		})
 		return
 	}
 	c.JSON(200, gin.H{
 		"state": ok,
-		"msg":   state,
+		"msg":   "登录成功",
+		"Token": code,
 	})
 	return
-}
-func AdminLogin(c *gin.Context) {
-	var admin models.Admin
-	err := c.ShouldBind(&admin)
-	if err != nil {
-		c.JSON(200, gin.H{
-			"code":  "false",
-			"state": "参数绑定失败",
-		})
-	}
-	ok, state := service.Admin(admin.Name, admin.Password)
-	if !ok {
-		c.JSON(200, gin.H{
-			"code": ok,
-			"msg":  state,
-		})
-		return
-	}
-	c.JSON(200, gin.H{
-		"code": ok,
-		"msg":  state,
-	})
 
 }
 func Logout(context *gin.Context) {
@@ -71,9 +49,42 @@ func Logout(context *gin.Context) {
 			"msg":   "你丫还没登录呢",
 		})
 	}
-	context.SetCookie("Userinfo", "", 0, "/", "localhost", false, false)
+	context.SetCookie("Userinfo", "", 0, "/", "sanser,ltd", false, false)
 	context.JSON(200, gin.H{
 		"state": "ture",
 		"msg":   "退出登录成功",
 	})
+}
+func Find(c *gin.Context) {
+	var Forget models.Register
+	err := c.ShouldBind(&Forget)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数绑定失败",
+		})
+		return
+	}
+	ok, err := utils.GetCk(Forget.Number, Forget.Code)
+	fmt.Println(ok)
+	if !ok {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
+	ok, err = dao.Find(Forget)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"state": true,
+		"msg":   "密码找回成功",
+	})
+	return
 }

@@ -1,12 +1,13 @@
 package main
 
 import (
-	"jingdong/dao"
-	"jingdong/router"
+	"JD/dao"
+	"JD/router"
+	"JD/utils"
 )
 
 func main() {
-	dao.PoolInitRedis()
+	utils.PoolInitRedis()
 	dao.MysqlInit()
 	router.Entrance()
 

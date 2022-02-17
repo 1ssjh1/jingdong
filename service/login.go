@@ -1,21 +1,25 @@
 package service
 
 import (
+	"JD/dao"
+	"JD/hander"
+	"JD/models"
 	"github.com/gin-gonic/gin"
-	"jingdong/dao"
-	"jingdong/hander"
-	"jingdong/models"
 )
 
-func Login(u models.Login, c *gin.Context) (bool, string, string) {
-	ok, sate := dao.Login(u)
-	if ok {
-		code := hander.Login(c, u)
-		return true, sate, code
+func Login(u models.Login, c *gin.Context) (bool, error, string) {
+	Info, err := dao.Login(u)
+	if err != nil {
+		return false, err, ""
 	}
-	return false, sate, ""
+
+	//发现这里只用返回两个参数的
+	token := hander.Login(c, *Info)
+	return true, nil, token
+
 }
 func Admin(name string, word string) (bool, string) {
 	ok, state := dao.AdminLogin(name, word)
+
 	return ok, state
 }

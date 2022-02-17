@@ -1,32 +1,37 @@
 package hander
 
 import (
+	"JD/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
 func Auth() func(c *gin.Context) {
 	return func(c *gin.Context) {
-		cookie, err := c.Cookie("Userinfo")
-		if err != nil {
-			fmt.Println(err)
-		}
+		Authorization := c.Request.Header.Get("Authorization")
+		fmt.Println(Authorization)
+		Info, err := utils.ParseToken(Authorization)
 		if err != nil {
 			c.JSON(200, gin.H{
-				"msg":  "验证错误",
-				"code": "false",
+				"state": false,
+				"msg":   err.Error(),
 			})
 			c.Abort()
 			return
 		}
-		if cookie == "" {
-			c.JSON(200, gin.H{
-				"msg":  "你还没有登录",
-				"code": "false",
-			})
-			c.Abort()
-			return
-		}
+		//cookie, err := c.Cookie("Userinfo")
+		//if err != nil {
+		//	fmt.Println(err)
+		//}
+		//if cookie == "" {
+		//	c.JSON(200, gin.H{
+		//		"msg":  "你还没有登录",
+		//		"code": false,
+		//	})
+		//	c.Abort()
+		//	return
+		//}
+		c.Set("Info", Info)
 		c.Next()
 	}
 }

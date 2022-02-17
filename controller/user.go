@@ -1,37 +1,36 @@
 package controller
 
 import (
-	"fmt"
+	"JD/dao"
+	"JD/models"
+	"JD/service"
+	"JD/utils"
+
 	"github.com/gin-gonic/gin"
-	"jingdong/dao"
-	"jingdong/models"
-	"jingdong/service"
-	"jingdong/utils"
 )
 
 func BalanceGet(c *gin.Context) {
 	var user models.User
-	err := c.ShouldBind(&user)
-	if err != nil {
+	Info, exist := c.Get("Info")
+	if !exist {
 		c.JSON(200, gin.H{
-			"state": "false",
-			"msg":   "参数绑定错误",
+			"state": false,
+			"msg":   "参数缺失",
 		})
 	}
-	cookie, _ := c.Cookie("Userinfo")
-
-	ok := utils.ParseToken(user.Token, cookie)
-	if !ok {
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
 		c.JSON(200, gin.H{
-			"state": ok,
-			"msg":   "身份验证失败",
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
-	ok, state := service.BalanceGet(user.Username)
+	user.BasicInfo = BasicInfo
+	ok, Info := service.BalanceGet(user.Username)
 	if !ok {
 		c.JSON(200, gin.H{
-			"msg":   state,
+			"msg":   Info,
 			"state": ok,
 		})
 		return
@@ -39,7 +38,7 @@ func BalanceGet(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"state":   ok,
 		"msg":     "查找成功",
-		"balance": state,
+		"balance": Info,
 	})
 
 }
@@ -48,20 +47,27 @@ func BalanceCharge(c *gin.Context) {
 	err := c.ShouldBind(&user)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
+			"state": false,
 			"msg":   "参数绑定失败",
 		})
 		return
 	}
-	cookie, _ := c.Cookie("Userinfo")
-	ok := utils.ParseToken(user.Token, cookie)
-	if !ok {
+	Info, exist := c.Get("Info")
+	if !exist {
 		c.JSON(200, gin.H{
-			"msg":  "用户信息不匹配",
-			"code": "false",
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
+	user.BasicInfo = BasicInfo
 
 	ok, state := service.BalanceCharge(user)
 	if !ok {
@@ -80,24 +86,22 @@ func BalanceCharge(c *gin.Context) {
 }
 func Order(c *gin.Context) {
 	var user models.User
-	err := c.ShouldBind(&user)
+	Info, exist := c.Get("Info")
+	if !exist {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
-			"msg":   "参数错误",
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
-	cookie, _ := c.Cookie("Userinfo")
-
-	ok := utils.ParseToken(user.Token, cookie)
-	if !ok {
-		c.JSON(200, gin.H{
-			"state": ok,
-			"msg":   "身份验证失败",
-		})
-		return
-	}
+	user.BasicInfo = BasicInfo
 	ok, info := dao.AllOrder(user)
 	if ok {
 		c.JSON(200, *info)
@@ -110,24 +114,30 @@ func Order(c *gin.Context) {
 }
 func UpdateOrder(c *gin.Context) {
 	var order models.UpdateOrder
-	cookie, _ := c.Cookie("Userinfo")
 	err := c.ShouldBind(&order)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
+			"state": false,
 			"msg":   "参数绑定失败",
 		})
 		return
 	}
-	fmt.Println(order)
-	ok := utils.ParseToken(order.Token, cookie)
-	if !ok {
+	Info, exist := c.Get("Info")
+	if !exist {
 		c.JSON(200, gin.H{
-			"state": ok,
-			"msg":   "身份验证失败",
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
+	order.BasicInfo = BasicInfo
 	ok, state := dao.UpdateOrder(order)
 	c.JSON(200, gin.H{
 		"state": ok,
@@ -137,24 +147,30 @@ func UpdateOrder(c *gin.Context) {
 }
 func DeleteOrder(c *gin.Context) {
 	var order models.UpdateOrder
-	cookie, _ := c.Cookie("Userinfo")
 	err := c.ShouldBind(&order)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
+			"state": false,
 			"msg":   "参数绑定失败",
 		})
 		return
 	}
-	fmt.Println(order)
-	ok := utils.ParseToken(order.Token, cookie)
-	if !ok {
+	Info, exist := c.Get("Info")
+	if !exist {
 		c.JSON(200, gin.H{
-			"state": ok,
-			"msg":   "身份验证失败",
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
+	order.BasicInfo = BasicInfo
 	ok, state := dao.DeleteOrder(order)
 	c.JSON(200, gin.H{
 		"state": ok,
@@ -163,27 +179,132 @@ func DeleteOrder(c *gin.Context) {
 }
 func Commit(c *gin.Context) {
 	var Commit models.Commit
-	err := c.ShouldBind(&Commit)
+	err := c.ShouldBind(Commit)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": "false",
+			"state": false,
 			"msg":   "参数绑定失败",
 		})
 		return
 	}
-	cookie, _ := c.Cookie("Userinfo")
-	ok := utils.ParseToken(Commit.Token, cookie)
-	if !ok {
+	Info, exist := c.Get("Info")
+	if !exist {
 		c.JSON(200, gin.H{
-			"state": ok,
-			"msg":   "身份验证失败",
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
+	Commit.BasicInfo = BasicInfo
 	ok, msg := dao.Commit(Commit)
 	c.JSON(200, gin.H{
 		"state": ok,
 		"msg":   msg,
 	})
 
+}
+
+// ImageUser 用户头像修改
+func ImageUser(c *gin.Context) {
+	var User models.UserImage
+	err := c.ShouldBind(&User)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数绑定失败",
+		})
+		return
+	}
+	Info, exist := c.Get("Info")
+	if !exist {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
+
+	User.BasicInfo = BasicInfo
+	url, err := utils.SaveFile(User.Image, c)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
+	msg, err := dao.SaveFile(url, User.BasicInfo)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"state": true,
+		"msg":   msg,
+	})
+	return
+}
+func Info(c *gin.Context) {
+	var User models.BasicInfo
+	//err := c.ShouldBind(&User)
+	//if err != nil {
+	//	c.JSON(200, gin.H{
+	//		"state": false,
+	//		"msg":   "参数绑定失败",
+	//	})
+	//	return
+	//}
+	//msg, BasicInfo := utils.ParseToken(User.Token)
+	//if BasicInfo == nil {
+	//	c.JSON(200, gin.H{
+	//		"msg":   msg,
+	//		"state": false,
+	//	})
+	//	return
+	//}
+	Info, exist := c.Get("Info")
+	if !exist {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "参数缺失",
+		})
+	}
+	BasicInfo, err := utils.Transform(Info)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
+	User = BasicInfo
+	UserInfo, err := dao.MyInfo(User)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"state": true,
+		"msg":   *UserInfo,
+	})
 }

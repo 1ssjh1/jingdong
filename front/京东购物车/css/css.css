@@ -1,0 +1,147 @@
+/* 头部的标题 */
+
+body {
+    background: #fff !important;
+}
+
+.car_top,
+.car_center,
+.car_bottom {
+    width: 1100px;
+    border: solid pink 1px;
+    margin: 20px auto 0;
+}
+
+.select,
+.title {
+    line-height: 50px;
+    display: flex;
+    width: 100%;
+    height: 50px;
+    justify-content: space-between;
+}
+
+.select>:nth-child(1) {
+    font-size: 16px;
+    margin-left: 50px;
+    font-weight: 700;
+    text-align: center;
+    color: #e2231a;
+}
+
+.select>:nth-child(2) {
+    font-size: 20px;
+    margin-right: 50px;
+}
+
+.title {
+    background: #f3f3f3;
+    border: 1px solid #e9e9e9;
+}
+
+
+/* 头部的标题 */
+
+.car_center .list_goods {
+    width: 1100px;
+    height: 120px;
+    border-top: solid pink 1px;
+    margin: 0 auto;
+}
+
+.car_center .list_goods {
+    display: flex;
+    justify-content: space-between;
+}
+
+.car_center .list_goods li>i {
+    height: 100%;
+}
+
+.car_center .list_goods li:nth-child(1),
+.title li:nth-child(1),
+.car_bottom ul li:nth-child(1) {
+    margin-left: 15px;
+    margin-right: -30px;
+}
+
+.car_center .list_goods li:nth-child(2),
+.title li:nth-child(2),
+.car_bottom ul li:nth-child(2) {
+    width: 120px;
+}
+
+.car_center .list_goods li:nth-child(3),
+.title li:nth-child(3),
+.car_bottom ul li:nth-child(3) {
+    width: 120px;
+}
+
+.car_center .list_goods li:nth-child(4),
+.title li:nth-child(4),
+.car_bottom ul li:nth-child(4) {
+    width: 90px;
+}
+
+.car_center .list_goods li:nth-child(5),
+.title li:nth-child(5),
+.car_bottom ul li:nth-child(5) {
+    width: 90px;
+}
+
+.car_center .list_goods li:nth-child(6),
+.title li:nth-child(6),
+.car_bottom ul li:nth-child(6) {
+    width: 90px;
+    margin-left: 10px;
+}
+
+.car_center .list_goods li:nth-child(7),
+.title li:nth-child(7),
+.car_bottom ul li:nth-child(7) {
+    width: 90px;
+    margin-left: 10px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.car_center .list_goods li:nth-child(8),
+.title li:nth-child(8),
+.car_bottom ul li:nth-child(8) {
+    width: 90px;
+}
+
+.car_center .list_goods a {
+    cursor: pointer;
+}
+
+.car_center .list_goods a:hover {
+    color: #e2231a;
+}
+
+
+/* 底部 */
+
+.car_bottom {
+    width: 1100px;
+}
+
+.car_bottom ul {
+    display: flex;
+    justify-content: space-between;
+}
+
+.car_bottom ul button {
+    width: 94px;
+    height: 52px;
+    background-color: rgba(230, 67, 71);
+    border: 1px solid rgba(230, 67, 71);
+    color: #e9e9e9;
+    cursor: pointer;
+}
+
+.car_bottom ul button:hover {
+    background-color: rgb(116, 46, 47);
+    transition: 0.5s ease;
+}

@@ -1,72 +1,92 @@
 package models
 
+type AllShop struct {
+	All []Type
+}
+type Type struct {
+	Type  string
+	Goods []Info
+}
+type UserAllGoods struct {
+	All []Info
+}
+type Info struct {
+	GoodsBasicInfo
+	Goods
+}
+
+// Goods 商品信息
 type Goods struct {
-	Gid       int
-	Name      string
+	Price     int
 	Sales     int
 	Commit    int
 	Grate     int
 	Introduce string
-	Choose    []Choose
 }
-type Choose struct {
-	Cid   int
-	Types string
-	Price int
-}
-
-type Chart struct {
+type GoodsBasicInfo struct {
+	Gid  int
+	Name string
+	Url  string
+	Type string
 }
 
-// ShopChart 用于加入购车 以及对购物车进行修改
+// UpdateOrder 删除订单
+type UpdateOrder struct {
+	BasicInfo
+	Oid string `json:"oid,omitempty" form:"oid"`
+}
+type AddChart struct {
+	BasicInfo
+	Gid   int `json:"gid,omitempty" form:"gid"`
+	Count int `json:"count,omitempty" form:"count"`
+}
+
+// ShopChart 用于加入购车
 type ShopChart struct {
-	Username string `form:"username" json:"username,omitempty"`
-	Uid      int    `form:"uid" json:"uid,omitempty"`
-	Gid      int    `form:"gid" json:"gid,omitempty"`
-	Cid      int    `form:"cid" json:"cid,omitempty"`
-	Count    int    `form:"count" json:"count,omitempty"`
-	Token    string `json:"token,omitempty" form:"token"`
+	BasicInfo
+	ChartId int `form:"chartid" json:"chartid,omitempty"`
+	Count   int `form:"count" json:"count,omitempty"`
 }
 type Userinfo struct {
-	Uid      int    `form:"uid" json:"uid,omitempty"`
-	Username string `form:"username" json:"username,omitempty"`
-	Token    string `json:"token ,omitempty" form:"token"`
+	BasicInfo
 }
 
 // AllChart  用于展示所有购物信息
 type AllChart struct {
-	Username  string
-	Uid       int
+	BasicInfo
 	ChartList []ChartShop
 }
+
+//后端生成订单所需信息
 type ChartShop struct {
-	Uid     int
 	ChartId int
 	Gid     int
-	Cid     int
-	Count   string
 	Good    string
-	Types   string
+	Count   string
 }
+
+// 用户生成订单信息
 type Order struct {
-	Username string `json:"username ,omitempty" form:"username"`
-	Uid      int    `json:"uid,omitempty" form:"uid"`
-	ChartId  []int  `json:"chart_id,omitempty" form:"chart_id"`
-	Token    string `json:"token,omitempty" form:"token"`
+	BasicInfo
+	ChartId []int `json:"chart_id,omitempty" form:"chart_id"`
 }
+
+//获取商品评论用户信息
 type Commits struct {
-	Uid      int    `json:"uid,omitempty" form:"uid"`
-	Username string `json:"username,omitempty" form:"username"`
-	Gid      int    `json:"gid,omitempty" form:"gid"`
-	Token    string `json:"token,omitempty" form:"token"`
+	BasicInfo
+	Gid string `json:"gid,omitempty" form:"gid"`
 }
+
+//所有评论
 type AllCommit struct {
 	Gid       int         `json:"gid,omitempty" form:"gid"`
 	Introduce string      `json:"introduce,omitempty" form:"introduce"`
 	Onecomit  []OneCommit `json:"onecomit,omitempty" form:"onecomit"`
 }
+
+//单条评论 用于 切片
 type OneCommit struct {
 	Oid    int    `json:"oid,omitempty" form:"oid"`
-	Cid    int    `json:"cid,omitempty" form:"cid"`
+	Url    string `json:"url,omitempty" form:"url"`
 	Commit string `json:"commit,omitempty" form:"commit"`
 }

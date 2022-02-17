@@ -1,0 +1,150 @@
+   #head .nav-right a {
+       background: url(./img/聊天气泡.png)150px no-repeat;
+       width: 200px;
+   }
+   
+   #head .nav-right a :hover {
+       text-decoration: underline;
+   }
+   /* ----------背景图---------- */
+   
+   .center-back {
+       background: rgba(233, 56, 84) no-repeat
+   }
+   
+   .center {
+       height: 475px;
+       background: url(./img/登录背景.png) center no-repeat
+   }
+   /* ----------背景图---------- */
+   /* ----------content---------- */
+   
+   .center {
+       position: relative;
+   }
+   
+   .content {
+       width: 350px;
+       height: 90%;
+       background-color: rgba(255, 255, 255);
+       right: 100px;
+       top: 15px;
+       position: absolute;
+       display: flex;
+       flex-flow: column nowrap;
+       justify-content: space-between;
+       align-items: center;
+   }
+   
+   .content .warning {
+       height: 38px;
+       font: 12px/14px;
+       line-height: 38px;
+       color: #666;
+       background: #fff8f0;
+       width: 100%;
+       text-align: center;
+   }
+   
+   .content .ways {
+       font-weight: 500;
+       width: 100%;
+       line-height: 33px;
+       font-size: x-large;
+       display: flex;
+       flex-flow: row nowrap;
+       justify-content: space-evenly;
+       border-bottom: 1px solid #f4f4f4;
+   }
+   
+   .content .ways span:hover {
+       font-weight: 700;
+       color: #e4393c;
+   }
+   
+   .content .username,
+   .content .code {
+       display: flex;
+   }
+   
+   .content .username input,
+   .content .code input {
+       width: 244px;
+       height: 35px;
+   }
+   
+   .content .username span,
+   .content .code span {
+       width: 35px;
+       height: 35px;
+       text-align: center;
+       font-size: 25px;
+       border: 1px solid rgba(190, 190, 190);
+   }
+   
+   .content .forget-code {
+       font-size: 12;
+       font-weight: 300;
+       margin-top: -40px;
+   }
+   
+   .content .forget-code a:hover {
+       text-decoration: underline;
+   }
+   
+   .content .enter-btn button {
+       width: 230px;
+       height: 42px;
+       line-height: 42px;
+       text-align: center;
+       color: #fff;
+       background: #e2231a;
+       border: 0;
+       font-size: 16px;
+       font-family: "Microsoft YaHei", "Hiragino Sans GB";
+       cursor: pointer;
+   }
+   
+   .content .enter-btn button:hover {
+       background: #b82d25;
+   }
+   
+   .content .other {
+       height: 35px;
+       width: 100%;
+       display: flex;
+       flex-flow: row nowrap;
+       justify-content: space-between;
+   }
+   
+   .content .other span {
+       margin-left: 20px;
+   }
+   
+   .content .other span a:first-child::before {
+       content: "";
+       display: inline-block;
+       vertical-align: middle;
+       width: 20px;
+       height: 20px;
+       background: url(./img/QQ-weixin.png) 0 center no-repeat;
+   }
+   
+   .content .other span a:nth-child(2)::before {
+       content: "";
+       display: inline-block;
+       width: 20px;
+       height: 20px;
+       background: url(./img/QQ-weixin.png) 20px;
+       vertical-align: middle;
+   }
+   
+   .content .other span~a {
+       color: #b82d25;
+       margin-right: 20px;
+   }
+   
+   .content .other span~a:hover {
+       text-decoration: underline;
+   }
+   /* ----------content---------- */

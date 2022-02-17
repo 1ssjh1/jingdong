@@ -1,11 +1,11 @@
 package service
 
 import (
-	"jingdong/dao"
-	"jingdong/models"
+	"JD/dao"
+	"JD/models"
 )
 
-func BalanceGet(u string) (bool, string) {
+func BalanceGet(u string) (bool, interface{}) {
 	ok, state := dao.GetBalance(u)
 	return ok, state
 

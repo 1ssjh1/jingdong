@@ -1,14 +1,14 @@
 package hander
 
 import (
+	"JD/models"
+	"JD/utils"
 	"github.com/gin-gonic/gin"
-	"jingdong/models"
-	"jingdong/utils"
 )
 
-func Login(c *gin.Context, u models.Login) string {
-	c.SetCookie("Userinfo", u.Username, 3600, "/", "localhost", false, false)
-	code := utils.MakeToken(u.Username)
-	return code
+func Login(c *gin.Context, u models.BasicInfo) string {
+	c.SetCookie("Userinfo", u.Username, 3600, "/", "sanser.ltd", false, false)
+	token := utils.MakeToken(u)
+	return token
 
 }
