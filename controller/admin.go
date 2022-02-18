@@ -3,7 +3,6 @@ package controller
 import (
 	"JD/dao"
 	"JD/models"
-	"JD/service"
 	"JD/utils"
 	"errors"
 	"github.com/gin-gonic/gin"
@@ -14,16 +13,16 @@ func RootLogin(c *gin.Context) {
 	err := c.ShouldBind(&admin)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"code":  "false",
-			"state": "参数绑定失败",
+			"state": false,
+			"msg":   "参数绑定失败",
 		})
 	}
-	ok, state := service.Admin(admin.Name, admin.Password)
+	ok, state := dao.AdminLogin(admin.Name, admin.Password)
 
 	if !ok {
 		c.JSON(200, gin.H{
-			"code": ok,
-			"msg":  state,
+			"state": ok,
+			"msg":   state,
 		})
 		return
 	}

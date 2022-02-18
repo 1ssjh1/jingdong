@@ -40,19 +40,19 @@ func Logout(context *gin.Context) {
 	cookie, err := context.Cookie("Userinfo")
 	if err != nil {
 		context.JSON(200, gin.H{
-			"state": "false",
+			"state": false,
 			"msg":   "退出登录失败",
 		})
 	}
 	if cookie == "" {
 		context.JSON(200, gin.H{
-			"state": "false",
+			"state": false,
 			"msg":   "你丫还没登录呢",
 		})
 	}
 	context.SetCookie("Userinfo", "", 0, "/", "sanser,ltd", false, false)
 	context.JSON(200, gin.H{
-		"state": "ture",
+		"state": true,
 		"msg":   "退出登录成功",
 	})
 }

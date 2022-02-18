@@ -7,7 +7,7 @@ import (
 	"time"
 )
 
-// PoolInitRedis 之前放在dao 下面的 结果出现循环应用
+// PoolInitRedis 之前放在dao 下面的 结果出现循环引用
 func PoolInitRedis() *redigo.Pool {
 	au := Init()
 	server := au.Redis.Host + ":" + au.Redis.Port

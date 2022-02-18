@@ -6,7 +6,7 @@ import (
 )
 
 func SetCk(n string, x string) bool {
-
+	//参照 官方示例 写个redis 短信验证 过期检验 很简单 很烂
 	c := PoolInitRedis().Get()
 	defer c.Close()
 	_, err := c.Do("SET", n, x, "EX", 300)
@@ -15,19 +15,19 @@ func SetCk(n string, x string) bool {
 	}
 	return true
 }
-func GetCk(n string, s string) (bool, error) {
-	//取出来rediis 连接
+func GetCk(n string, s string) error {
+	//
 	c := PoolInitRedis().Get()
 	//
 	defer c.Close()
 	v, err := redis.String(c.Do("GET", n))
 	if err == redis.ErrNil {
 		err = errors.New("验证码超时")
-		return false, err
+		return err
 	}
 	if v != s {
 		err = errors.New("验证码错误")
-		return false, err
+		return err
 	}
-	return true, nil
+	return nil
 }

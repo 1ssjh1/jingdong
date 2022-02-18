@@ -139,7 +139,7 @@ func AddGoods(goods models.GoodsAdd, c *gin.Context) (string, error) {
 	if err != nil {
 		fmt.Println(err)
 
-		err = errors.New("商品添添加失败 请重试")
+		//err = errors.New("商品添添加失败 请重试")
 		tx.Rollback()
 		return "", err
 	}

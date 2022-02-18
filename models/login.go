@@ -1,6 +1,6 @@
 package models
 
 type Admin struct {
-	Name     string `json:"name,omitempty" form:"name"`
+	Name     string `json:"username,omitempty" form:"username"`
 	Password string `json:"password,omitempty" form:"password"`
 }
