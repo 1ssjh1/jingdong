@@ -17,10 +17,9 @@ import (
 func Sendsms(Number string) error {
 
 	///腾讯云短信发送
-
 	// 密钥
-	au := Init()
-	credential := common.NewCredential(au.Sms.ID, au.Sms.Key)
+
+	credential := common.NewCredential(Au.Sms.ID, Au.Sms.Key)
 	cpf := profile.NewClientProfile()
 	cpf.HttpProfile.Endpoint = "sms.tencentcloudapi.com"
 	client, _ := sms.NewClient(credential, "ap-guangzhou", cpf)
@@ -28,9 +27,9 @@ func Sendsms(Number string) error {
 	request.PhoneNumberSet = common.StringPtrs([]string{Number})
 	fmt.Println(Number)
 	//短信模板
-	request.SmsSdkAppId = common.StringPtr(au.Sms.Smsid)
-	request.SignName = common.StringPtr(au.Sms.Signname)
-	request.TemplateId = common.StringPtr(au.Sms.Templeid)
+	request.SmsSdkAppId = common.StringPtr(Au.Sms.Smsid)
+	request.SignName = common.StringPtr(Au.Sms.Signname)
+	request.TemplateId = common.StringPtr(Au.Sms.Templeid)
 	//生成验证码
 	code := strconv.FormatInt(time.Now().UnixNano()%1000000, 10)
 	fmt.Println("\n", code)
@@ -46,6 +45,7 @@ func Sendsms(Number string) error {
 	if err != nil {
 		panic(err)
 	}
+	//错误处理 参照文档列出来的部分错误 进行解析 返回
 	for _, v := range response.Response.SendStatusSet {
 		fmt.Println(v.Code)
 		if *v.Code == sms.FAILEDOPERATION_FAILRESOLVEPACKET {
@@ -65,7 +65,7 @@ func Sendsms(Number string) error {
 		}
 		if *v.Code == sms.MISSINGPARAMETER_EMPTYPHONENUMBERSET {
 			fmt.Println("传入的号码列表为空")
-			err := errors.New("你没输入号码")
+			err := errors.New("手机号为空")
 			return err
 		}
 
@@ -82,7 +82,6 @@ func Sendsms(Number string) error {
 		if *v.Code == sms.LIMITEXCEEDED_PHONENUMBERDAILYLIMIT {
 			err := errors.New("今天发的太多了 明天再来吧")
 			return err
-			//fmt.Println("今天没短信了明天再来吧")
 		}
 		fmt.Println(*response.Response.SendStatusSet[0].Code)
 	}
