@@ -189,14 +189,7 @@ func MakeOrder(c *gin.Context) {
 func GetCommit(c *gin.Context) {
 
 	var commit models.Commits
-	//err := c.ShouldBind(&commit)
-	//if err != nil {
-	//	c.JSON(200, gin.H{
-	//		"state": false,
-	//		"msg":   "参数绑定失败",
-	//	})
-	//	return
-	//}
+
 	commit.Gid = c.Query("gid")
 	fmt.Println(commit.Gid)
 	Info, exist := c.Get("Info")
