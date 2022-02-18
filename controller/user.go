@@ -3,7 +3,6 @@ package controller
 import (
 	"JD/dao"
 	"JD/models"
-	"JD/service"
 	"JD/utils"
 
 	"github.com/gin-gonic/gin"
@@ -27,18 +26,18 @@ func BalanceGet(c *gin.Context) {
 		return
 	}
 	user.BasicInfo = BasicInfo
-	ok, Info := service.BalanceGet(user.Username)
-	if !ok {
+	balance, err := dao.GetBalance(user.Username)
+	if err != nil {
 		c.JSON(200, gin.H{
-			"msg":   Info,
-			"state": ok,
+			"msg":   err.Error(),
+			"state": false,
 		})
 		return
 	}
 	c.JSON(200, gin.H{
-		"state":   ok,
+		"state":   true,
 		"msg":     "查找成功",
-		"balance": Info,
+		"balance": *balance,
 	})
 
 }
@@ -69,7 +68,7 @@ func BalanceCharge(c *gin.Context) {
 	}
 	user.BasicInfo = BasicInfo
 
-	ok, state := service.BalanceCharge(user)
+	ok, state := dao.ChargeBalance(user)
 	if !ok {
 		c.JSON(200, gin.H{
 			"state": "false",
@@ -138,10 +137,17 @@ func UpdateOrder(c *gin.Context) {
 		return
 	}
 	order.BasicInfo = BasicInfo
-	ok, state := dao.UpdateOrder(order)
+	err = dao.UpdateOrder(order)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
 	c.JSON(200, gin.H{
-		"state": ok,
-		"msg":   state,
+		"state": true,
+		"msg":   "确认收货成功",
 	})
 
 }
