@@ -210,15 +210,7 @@ func MakeOrder(order models.Order) (bool, string) {
 	return true, "订单提交成功"
 }
 func AllOrder(user models.User) (bool, *models.UserOrder) {
-	//stm, err := DB.Prepare("select uid from user_info where name =?")
-	//if err != nil {
-	//	return false, nil
-	//}
-	//var Uid int
-	//err = stm.QueryRow(user.Username).Scan(&Uid)
-	//if err != nil {
-	//	return false, nil
-	//}
+
 	stm, err := DB.Prepare("select oid,state,gid ,count from user_order where uid=?")
 	if err != nil {
 		return false, nil
@@ -238,28 +230,31 @@ func AllOrder(user models.User) (bool, *models.UserOrder) {
 	}
 	return true, &all
 }
-func UpdateOrder(order models.UpdateOrder) (bool, string) {
+func UpdateOrder(order models.UpdateOrder) error {
 	stm, err := DB.Prepare("select state from user_order where oid =?")
 	if err != nil {
 		fmt.Println(err)
-		return false, "失败"
+		err = errors.New("失败")
+		return err
 	}
 	var Orderstate string
 	err = stm.QueryRow(order.Uid).Scan(&Orderstate)
 	if Orderstate == "未发货" {
-		return false, "还没发货呢 着啥急"
+		err = errors.New("还未发货 着啥急")
+		return err
 	}
 	stm, err = DB.Prepare("update user_order set state=? where oid =?")
 	if err != nil {
-		return false, "错误"
+		err = errors.New("失败")
+		return err
 	}
 	_, err = stm.Exec("已完成", order.Oid)
 	if err != nil {
 		fmt.Println(err)
-
-		return false, "失败"
+		err = errors.New("失败")
+		return err
 	}
-	return true, "确认收获成功"
+	return nil
 
 }
 func DeleteOrder(order models.UpdateOrder) (bool, string) {
