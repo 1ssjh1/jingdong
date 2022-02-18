@@ -263,22 +263,9 @@ func ImageUser(c *gin.Context) {
 }
 func Info(c *gin.Context) {
 	var User models.BasicInfo
-	//err := c.ShouldBind(&User)
-	//if err != nil {
-	//	c.JSON(200, gin.H{
-	//		"state": false,
-	//		"msg":   "参数绑定失败",
-	//	})
-	//	return
-	//}
-	//msg, BasicInfo := utils.ParseToken(User.Token)
-	//if BasicInfo == nil {
-	//	c.JSON(200, gin.H{
-	//		"msg":   msg,
-	//		"state": false,
-	//	})
-	//	return
-	//}
+	//从中间件的set 中取出token的荷载信息 //
+	//原本这玩意是放在body里 后面又说放在head里
+
 	Info, exist := c.Get("Info")
 	if !exist {
 		c.JSON(200, gin.H{
