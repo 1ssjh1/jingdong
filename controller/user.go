@@ -177,10 +177,17 @@ func DeleteOrder(c *gin.Context) {
 		return
 	}
 	order.BasicInfo = BasicInfo
-	ok, state := dao.DeleteOrder(order)
+	err = dao.DeleteOrder(order)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   err.Error(),
+		})
+		return
+	}
 	c.JSON(200, gin.H{
-		"state": ok,
-		"msg":   state,
+		"state": true,
+		"msg":   "订单销毁成功",
 	})
 }
 func Commit(c *gin.Context) {
@@ -214,7 +221,6 @@ func Commit(c *gin.Context) {
 		"state": ok,
 		"msg":   msg,
 	})
-
 }
 
 // ImageUser 用户头像修改
