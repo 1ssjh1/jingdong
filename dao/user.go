@@ -172,22 +172,26 @@ func SaveFile(url string, user models.BasicInfo) (string, error) {
 	return "文件上传成功", nil
 }
 
-func GetBalance(u string) (bool, interface{}) {
+func GetBalance(u string) (*int, error) {
 	stm, err := DB.Prepare("select  balance from user_info where name = ?")
 	if err != nil {
-		return false, "查找失败"
+		err = errors.New("查找失败")
+		return nil, err
 	}
 	defer stm.Close()
 	rows, err := stm.Query(u)
 	if err != nil {
-		return false, "查找失败"
+		err = errors.New("查找失败")
+		return nil, err
+		//return false, "查找失败"
+		//return false, "查找失败"
 	}
 	var tmp int
 	for rows.Next() {
 		rows.Scan(&tmp)
 	}
 
-	return true, tmp
+	return &tmp, nil
 
 }
 func ChargeBalance(u models.Balance) (bool, string) {
