@@ -6,84 +6,84 @@ import (
 	"fmt"
 )
 
-func Register(name string, word string, number string) (bool, error) {
+func Register(name string, word string, number string) error {
 	var U models.Register
 	stm, err := DB.Prepare("select  name from user_info where name = ?")
 	if err != nil {
 		fmt.Println(err)
 		err = errors.New("注册失败")
-		return false, err
+		return err
 	}
 	defer stm.Close()
 	rows, err := stm.Query(&name)
 	if err != nil {
 		fmt.Println(err)
 		err = errors.New("注册失败")
-		return false, err
+		return err
 	}
 	defer rows.Close()
 	for rows.Next() {
 		rows.Scan(&U.Username)
 		if name == U.Username {
 			err = errors.New("用户名已存在 要不登录试试")
-			return false, err
+			return err
 		}
 	}
 	stm, err = DB.Prepare("select  number from user_info where number = ?")
 	if err != nil {
 		fmt.Println(err)
 		err = errors.New("注册失败")
-		return false, err
+		return err
 	}
 	defer stm.Close()
 	rows, err = stm.Query(&number)
 	if err != nil {
 		fmt.Println(err)
 		err = errors.New("注册失败")
-		return false, err
+		return err
 	}
 	defer rows.Close()
 	for rows.Next() {
 		rows.Scan(&U.Username)
 		if number == U.Username {
 			err = errors.New("手机号已注册")
-			return false, err
+			return err
 		}
 	}
 	stm, err = DB.Prepare("insert into user_info(name,word,number) values(?,?,?);")
 	if err != nil {
 		fmt.Println(err)
 		err = errors.New("注册失败")
-		return false, err
+		return err
 	}
 	_, err = stm.Exec(name, word, number)
 	if err != nil {
 		fmt.Println(err)
 		err = errors.New("注册失败")
-		return false, err
+		return err
 	}
-	return true, nil
+	return nil
 
 }
-func Find(user models.Register) (bool, error) {
+func Find(user models.Register) error {
 	stm, err := DB.Prepare("select word ,number from user_info where name=?")
 	if err != nil {
 		err = errors.New("账户找回失败")
-		return false, err
+		return err
 	}
 	var temple models.Register
 	err = stm.QueryRow(user.Username).Scan(&temple.Password, &temple.Number)
 	if err != nil {
 		err = errors.New("账户找回失败")
-		return false, err
+		return err
 	}
 	if temple.Number != user.Number {
 		err = errors.New("手机号不匹配，再试试把")
-		return false, err
+		return err
 	}
 	if temple.Password == user.Password {
 		err = errors.New("密码不能和原来的相同哦")
-		return false, err
+		return err
 	}
 	stm, err = DB.Prepare("update user_info set word =? where name =?")
 	if err != nil {
@@ -92,9 +92,9 @@ func Find(user models.Register) (bool, error) {
 	_, err = stm.Exec(user.Password, user.Username)
 	if err != nil {
 		err = errors.New("账号找回失败")
-		return false, err
+		return err
 	}
-	return true, nil
+	return nil
 
 }
 func Login(u models.Login) (*models.BasicInfo, error) {
