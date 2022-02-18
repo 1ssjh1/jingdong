@@ -2,10 +2,9 @@ package controller
 
 import (
 	"JD/dao"
+	"JD/hander"
 	"JD/models"
-	"JD/service"
 	"JD/utils"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,18 +18,20 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	ok, err, code := service.Login(u, c)
+	Info, err := dao.Login(u)
 	if err != nil {
 		c.JSON(200, gin.H{
-			"state": ok,
+			"state": false,
 			"msg":   err.Error(),
 		})
 		return
 	}
+	token := hander.Login(c, *Info)
+
 	c.JSON(200, gin.H{
-		"state": ok,
+		"state": true,
 		"msg":   "登录成功",
-		"Token": code,
+		"Token": token,
 	})
 	return
 
@@ -65,16 +66,15 @@ func Find(c *gin.Context) {
 		})
 		return
 	}
-	ok, err := utils.GetCk(Forget.Number, Forget.Code)
-	fmt.Println(ok)
-	if !ok {
+	err = utils.GetCk(Forget.Number, Forget.Code)
+	if err != nil {
 		c.JSON(200, gin.H{
 			"state": false,
 			"msg":   err.Error(),
 		})
 		return
 	}
-	ok, err = dao.Find(Forget)
+	err = dao.Find(Forget)
 	if err != nil {
 		c.JSON(200, gin.H{
 			"state": false,
