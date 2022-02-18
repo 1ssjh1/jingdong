@@ -31,15 +31,7 @@ func AllShops() *models.UserAllGoods {
 			AllShop.All = append(AllShop.All, templebasicinfo)
 		}
 	}()
-	//for rows.Next() {
-	//	err := rows.Scan(&templebasicinfo.Gid, &templebasicinfo.Name, &templebasicinfo.Url, &templebasicinfo.Type)
-	//	if err != nil {
-	//		fmt.Println(err, "fw")
-	//		return nil
-	//	}
-	//	templebasicinfo.Url = "https://sanser.ltd/static/" + templebasicinfo.Url
-	//	AllShop.All = append(AllShop.All, templebasicinfo)
-	//}
+	// 嘿嘿 开始蹩脚并发
 	fmt.Println(AllShop)
 	s := sync.WaitGroup{}
 	stms, err := DB.Prepare("select sales,commit,Grate ,introduce ,price from goods_info where Gid =?")
@@ -49,7 +41,6 @@ func AllShops() *models.UserAllGoods {
 	for k, v := range AllShop.All {
 		chanel_1 <- k
 		chanel_2 <- v.Gid
-
 	}
 
 	//蹩脚 并发
@@ -257,10 +248,13 @@ func UpdateOrder(order models.UpdateOrder) error {
 	return nil
 
 }
-func DeleteOrder(order models.UpdateOrder) (bool, string) {
+func DeleteOrder(order models.UpdateOrder) error {
 	stm, err := DB.Prepare("select uid,state from user_order where oid=?")
 	if err != nil {
-		return false, "失败"
+		err = errors.New("失败")
+		//return false, "失败"
+		return err
+
 	}
 	var (
 		templeuid   int
@@ -268,23 +262,33 @@ func DeleteOrder(order models.UpdateOrder) (bool, string) {
 	)
 	err = stm.QueryRow(order.Oid).Scan(&templeuid, &templestate)
 	if err != nil {
-		return false, "失败"
+		err = errors.New("失败")
+		//return false, "失败"
+		return err
 	}
 	if templeuid != order.Uid {
-		return false, "怎么可以动别人的订单呢"
+		err = errors.New("怎么可以动别人的订单呢")
+		return err
 	}
 	if templestate == "已完成" {
-		return false, "已经完成订单了 概不负责了哦"
+
+		err = errors.New("已经完成订单了 概不负责了哦")
+		return err
 	}
 	stm, err = DB.Prepare("delete from user_order where oid =?")
 	if err != nil {
-		return false, "失败"
+		err = errors.New("失败")
+		//return false, "失败"
+		return err
+		//return false, "失败"
 	}
 	_, err = stm.Exec(order.Oid)
 	if err != nil {
-		return false, "失败"
+		err = errors.New("失败")
+		//return false, "失败"
+		return err
 	}
-	return true, "订单销毁成功"
+	return nil
 }
 func Commit(commit models.Commit) (bool, string) {
 	stm, err := DB.Prepare("select uid  ,state,gid,cid from user_order where oid =?")
@@ -338,6 +342,8 @@ func GetCommit(commit models.Commits) *models.AllCommit {
 		return nil
 	}
 	for row.Next() {
+
+		//发现用户评论的时候并没有附带上 图片 这里面的url 就弄个默认值吧 （doge
 		row.Scan(&onecommit.Oid, &onecommit.Url, &onecommit.Commit)
 		onecommit.Url = "https://sanser.ltd/static/" + onecommit.Url
 		allcommit.Onecomit = append(allcommit.Onecomit, onecommit)
