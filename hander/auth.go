@@ -19,18 +19,18 @@ func Auth() func(c *gin.Context) {
 			c.Abort()
 			return
 		}
-		//cookie, err := c.Cookie("Userinfo")
-		//if err != nil {
-		//	fmt.Println(err)
-		//}
-		//if cookie == "" {
-		//	c.JSON(200, gin.H{
-		//		"msg":  "你还没有登录",
-		//		"code": false,
-		//	})
-		//	c.Abort()
-		//	return
-		//}
+		cookie, err := c.Cookie("Userinfo")
+		if err != nil {
+			fmt.Println(err)
+		}
+		if cookie == "" {
+			c.JSON(200, gin.H{
+				"msg":  "你还没有登录",
+				"code": false,
+			})
+			c.Abort()
+			return
+		}
 		c.Set("Info", Info)
 		c.Next()
 	}
