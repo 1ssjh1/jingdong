@@ -25,6 +25,7 @@ func Entrance() {
 	//登出接口
 	r.GET("/logout", controller.Logout)
 	r.GET("/show", controller.Show)
+	//用户组
 	UserGroup := r.Group("/user")
 	{
 		//用户主界面
@@ -58,12 +59,12 @@ func Entrance() {
 		ShopCenter.PUT("/chart", hander.Auth(), controller.Update)
 		//order 生成订单
 		ShopCenter.POST("/order", hander.Auth(), controller.MakeOrder)
-		//
 	}
+	//管理组
 
 	admin := r.Group("/admin")
 	{
-
+		//登录
 		admin.POST("/login", controller.RootLogin)
 		//展示所有订单 也写个分类吧
 		admin.GET("/order", hander.Auth(), controller.RootAll)
@@ -82,7 +83,8 @@ func Entrance() {
 		//登出
 		admin.GET("/logout", hander.Auth(), controller.RootLogout)
 	}
-	r.Run(":8080")
-	//r.RunTLS(":443", "test.pem", "test.key")
+	//r.Run(":8080")
+	//runtls 实现https 访问 用的是腾讯的ssl 证书 不存在爆红
+	r.RunTLS(":443", "test.pem", "test.key")
 
 }
