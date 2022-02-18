@@ -4,6 +4,7 @@ import (
 	"JD/models"
 	"errors"
 	"fmt"
+	"os"
 )
 
 func Register(name string, word string, number string) error {
@@ -150,7 +151,15 @@ func AdminLogin(name string, word string) (bool, string) {
 }
 
 func SaveFile(url string, user models.BasicInfo) (string, error) {
-	stm, err := DB.Prepare("update user_info set image=? where uid=? ")
+	stm, err := DB.Prepare("select image from user_info where uid=?")
+	if err != nil {
+		err := errors.New("文件上传失败")
+		return "", err
+	}
+	var link string
+	err = stm.QueryRow(user.Uid).Scan(&link)
+	err = os.Remove("./static/" + link)
+	stm, err = DB.Prepare("update user_info set image=? where uid=? ")
 	if err != nil {
 		err := errors.New("文件上传失败")
 		return "", err
@@ -317,28 +326,22 @@ func UpdateChart(chart models.ShopChart) (bool, string) {
 
 func MyInfo(User models.BasicInfo) (*models.MyInfo, error) {
 	var UserInfo models.MyInfo
-	//fmt.Println(User, "userinfomation")
 	UserInfo.BasicInfo = User
 
-	fmt.Println(UserInfo.Uid)
 	stm, err := DB.Prepare("select balance ,image from user_info where uid=?")
 	if err != nil {
 		err = errors.New("个人信息读取错误")
 		return nil, err
 	}
-	fmt.Println(UserInfo)
 	var tmp models.MyInfo
 	rows, err := stm.Query(User.Uid)
 	err = stm.QueryRow(User.Uid).Scan(&UserInfo.Balance, &UserInfo.ImageUrl)
-	fmt.Println(err)
-	fmt.Println(UserInfo.ImageUrl)
 	if err != nil {
 		err = errors.New("个人信息读取错误")
 		return nil, err
 	}
 	for rows.Next() {
 		err = rows.Scan(&tmp.Balance, &tmp.ImageUrl)
-		fmt.Println(tmp)
 		if err != nil {
 			err = errors.New("个人信息读取错误")
 			return nil, err
