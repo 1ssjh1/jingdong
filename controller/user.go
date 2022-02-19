@@ -192,7 +192,7 @@ func DeleteOrder(c *gin.Context) {
 }
 func Commit(c *gin.Context) {
 	var Commit models.Commit
-	err := c.ShouldBind(Commit)
+	err := c.ShouldBind(&Commit)
 	if err != nil {
 		c.JSON(200, gin.H{
 			"state": false,
