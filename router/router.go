@@ -25,6 +25,7 @@ func Entrance() {
 	//登出接口
 	r.GET("/logout", controller.Logout)
 	r.GET("/show", controller.Show)
+	r.GET("/news", controller.News)
 	//用户组
 	UserGroup := r.Group("/user")
 	{
@@ -83,8 +84,8 @@ func Entrance() {
 		//登出
 		admin.GET("/logout", hander.Auth(), controller.RootLogout)
 	}
-	//r.Run(":8080")
+	r.Run(":8080")
 	//runtls 实现https 访问 用的是腾讯的ssl 证书 不存在爆红
-	r.RunTLS(":443", "test.pem", "test.key")
+	//r.RunTLS(":443", "test.pem", "test.key")
 
 }
