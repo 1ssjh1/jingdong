@@ -28,8 +28,8 @@ func Auth() func(c *gin.Context) {
 			}
 			if cookie == "" {
 				c.JSON(200, gin.H{
-					"msg":  "你还没有登录",
-					"code": false,
+					"msg":   "你还没有登录",
+					"state": false,
 				})
 				c.Abort()
 				return
@@ -41,8 +41,8 @@ func Auth() func(c *gin.Context) {
 			}
 			if cookie == "" {
 				c.JSON(200, gin.H{
-					"msg":  "你还没有登录",
-					"code": false,
+					"msg":   "你还没有登录",
+					"state": false,
 				})
 				c.Abort()
 				return
