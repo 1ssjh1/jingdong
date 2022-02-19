@@ -43,18 +43,21 @@ func Logout(context *gin.Context) {
 			"state": false,
 			"msg":   "退出登录失败",
 		})
+		return
 	}
 	if cookie == "" {
 		context.JSON(200, gin.H{
 			"state": false,
 			"msg":   "你丫还没登录呢",
 		})
+		return
 	}
 	context.SetCookie("Userinfo", "", 0, "/", "sanser,ltd", false, false)
 	context.JSON(200, gin.H{
 		"state": true,
 		"msg":   "退出登录成功",
 	})
+	return
 }
 func Find(c *gin.Context) {
 	var Forget models.Register
