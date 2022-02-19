@@ -145,15 +145,15 @@ func MakeOrder(order models.Order) (bool, string) {
 		}
 	}
 	//后续补上扣款功能 不扣款咋能行
-	stm, err = tx.Prepare("select price from goods_type where  Gid=?")
+	stm, err = tx.Prepare("select price from goods_info where  Gid=?")
 	if err != nil {
 
 		fmt.Println(err, "4")
 		tx.Rollback()
 		return false, "订单创建失败"
 	}
-	var allprice = 0
-	var tempv int
+	var allprice float64
+	var tempv float64
 	for _, v := range allinfo {
 		fmt.Println(v)
 		err = stm.QueryRow(v.Gid).Scan(&tempv)
@@ -229,8 +229,9 @@ func UpdateOrder(order models.UpdateOrder) error {
 		return err
 	}
 	var Orderstate string
-	err = stm.QueryRow(order.Uid).Scan(&Orderstate)
-	if Orderstate == "未发货" {
+	err = stm.QueryRow(order.Oid).Scan(&Orderstate)
+	fmt.Println(Orderstate)
+	if Orderstate == "已支付" {
 		err = errors.New("还未发货 着啥急")
 		return err
 	}
@@ -291,7 +292,7 @@ func DeleteOrder(order models.UpdateOrder) error {
 	return nil
 }
 func Commit(commit models.Commit) (bool, string) {
-	stm, err := DB.Prepare("select uid  ,state,gid,cid from user_order where oid =?")
+	stm, err := DB.Prepare("select uid  ,state,gid from user_order where oid =?")
 	if err != nil {
 		fmt.Println(err)
 		return false, "评论提交失败"
@@ -300,9 +301,8 @@ func Commit(commit models.Commit) (bool, string) {
 		uid   int
 		state string
 		gid   int
-		cid   int
 	)
-	err = stm.QueryRow(commit.Oid).Scan(&uid, &state, &gid, &cid)
+	err = stm.QueryRow(commit.Oid).Scan(&uid, &state, &gid)
 	if err != nil {
 		fmt.Println(err)
 		return false, "评论提交失败"
@@ -310,12 +310,12 @@ func Commit(commit models.Commit) (bool, string) {
 	if uid != commit.Uid || state != "已完成" {
 		return false, "商品状态错误"
 	}
-	stm, err = DB.Prepare("insert into goods_commit (Gid,oid,cid,commit) values (?,?,?,?)")
+	stm, err = DB.Prepare("insert into goods_commit (Gid,oid,commit) values (?,?,?)")
 	if err != nil {
 		fmt.Println(err)
 		return false, "评论提交失败"
 	}
-	_, err = stm.Exec(gid, commit.Oid, cid, commit.Commit)
+	_, err = stm.Exec(gid, commit.Oid, commit.Commit)
 	if err != nil {
 		fmt.Println(err)
 		return false, "评论提交失败"
