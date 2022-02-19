@@ -42,6 +42,7 @@ func AllShop(c *gin.Context) {
 }
 
 func Chart(c *gin.Context) {
+
 	var Chart models.AddChart
 	err := c.ShouldBind(&Chart)
 	if err != nil {
@@ -68,16 +69,25 @@ func Chart(c *gin.Context) {
 	}
 
 	Chart.BasicInfo = BasicInfo
-	ok, state := dao.AddChart(Chart)
-	if !ok {
+
+	//info := <-s
+	msg, err := dao.AddChart(Chart)
+	if err != nil {
 		c.JSON(200, gin.H{
-			"state": ok,
-			"msg":   state,
+			"state": false,
+			"msg":   err.Error(),
 		})
 		return
 	}
+	c.JSON(200, gin.H{
+		"state": true,
+		"msg":   msg,
+	})
 
 }
+
+//c := <-m
+//wait.Add(1)
 
 func Update(c *gin.Context) {
 	var chart models.ShopChart

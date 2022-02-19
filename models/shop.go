@@ -17,7 +17,7 @@ type Info struct {
 
 // Goods 商品信息
 type Goods struct {
-	Price     int
+	Price     float64
 	Sales     int
 	Commit    int
 	Grate     int
@@ -37,7 +37,7 @@ type UpdateOrder struct {
 }
 type AddChart struct {
 	BasicInfo
-	Gid   int `json:"gid,omitempty" form:"gid"`
+	Gid   int `json:"gid,omitempty" form:"gid" binding:"required"`
 	Count int `json:"count,omitempty" form:"count"`
 }
 
