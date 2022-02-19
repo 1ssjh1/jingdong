@@ -172,7 +172,7 @@ func SaveFile(url string, user models.BasicInfo) (string, error) {
 	return "文件上传成功", nil
 }
 
-func GetBalance(u string) (*int, error) {
+func GetBalance(u string) (*float64, error) {
 	stm, err := DB.Prepare("select  balance from user_info where name = ?")
 	if err != nil {
 		err = errors.New("查找失败")
@@ -186,7 +186,7 @@ func GetBalance(u string) (*int, error) {
 		//return false, "查找失败"
 		//return false, "查找失败"
 	}
-	var tmp int
+	var tmp float64
 	for rows.Next() {
 		rows.Scan(&tmp)
 	}
@@ -199,7 +199,7 @@ func ChargeBalance(u models.Balance) (bool, string) {
 	if err != nil {
 		return false, "充值失败"
 	}
-	var balance int
+	var balance float64
 	err = stm.QueryRow(u.Uid).Scan(&balance)
 	balance += u.Balance
 	stm, err = DB.Prepare("update user_info set balance=? where name=?")
@@ -212,59 +212,45 @@ func ChargeBalance(u models.Balance) (bool, string) {
 	}
 	return true, "充值成功"
 }
-func AddChart(chart models.AddChart) (bool, string) {
+func AddChart(chart models.AddChart) (string, error) {
 	stm, err := DB.Prepare("select gid from shop_chart where uid=?")
 	if err != nil {
 		fmt.Println(err)
-		return false, ""
+		err := errors.New("操作失败")
+		return "", err
 	}
 	var Temple models.AddChart
 	rows, err := stm.Query(chart.Uid)
 	for rows.Next() {
 		rows.Scan(&Temple.Gid)
 		if Temple.Gid == chart.Gid {
-			return false, "已经加入购物车了 试试别的吧"
+			err := errors.New("已经加入购物车了 试试别的吧")
+			return "", err
+			//return false,
 		}
 	}
 
 	stm, err = DB.Prepare(" insert into shop_chart(uid,gid,count) values(?,?,?)")
 	if err != nil {
 		fmt.Println(err, "fod")
+		err := errors.New("操作失败")
 
-		return false, ""
+		return "", err
 	}
 	_, err = stm.Exec(chart.Uid, chart.Gid, chart.Count)
 	if err != nil {
 		fmt.Println(err)
+		err := errors.New("操作失败")
 
-		return false, ""
+		return "", err
 	}
-	return true, "你的宝贝已经躺在购物车里了哦"
+	return "你的宝贝已经躺在购物车里了哦", nil
 
 }
 func AllChart(user models.Userinfo) (*models.AllChart, error) {
-	stm, err := DB.Prepare("select uid from user_info where name=?")
-	if err != nil {
-		fmt.Println(err)
-		err = errors.New("查询失败")
-		return nil, err
-	}
-	var Temple models.Userinfo
-	err = stm.QueryRow(user.Username).Scan(&Temple.Uid)
-	if err != nil {
-		fmt.Println(err)
-		err = errors.New("查询失败")
-		return nil, err
-	}
-	if Temple.Uid != user.Uid {
-		fmt.Println("参数错误")
-		err = errors.New("参数错误")
-		return nil, err
-	}
-
 	all := models.AllChart{}
 	all.BasicInfo = user.BasicInfo
-	stm, err = DB.Prepare("select chart_id,gid,count from shop_chart where uid=? ")
+	stm, err := DB.Prepare("select chart_id,gid,count from shop_chart where uid=? ")
 	if err != nil {
 		fmt.Println(err)
 		err = errors.New("查询失败")
