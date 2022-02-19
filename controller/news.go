@@ -6,9 +6,13 @@ import (
 )
 
 func News(c *gin.Context) {
-	News := utils.GetNews()
-	c.JSON(200, gin.H{
-		"state": true,
-		"msg":   News,
-	})
+	News, err := utils.GetNews()
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "新闻获取失败",
+		})
+	}
+	c.JSON(200, News)
+
 }
