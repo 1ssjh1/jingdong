@@ -315,6 +315,7 @@ func Commit(commit models.Commit) (bool, string) {
 		fmt.Println(err)
 		return false, "评论提交失败"
 	}
+	fmt.Println(commit.Commit)
 	_, err = stm.Exec(gid, commit.Oid, commit.Commit)
 	if err != nil {
 		fmt.Println(err)
