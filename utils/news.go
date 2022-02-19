@@ -5,22 +5,52 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"math/rand"
 	"net/http"
+	"sync"
+	"time"
 )
 
-func GetNews() models.News {
+func GetNews() (*models.News, error) {
 
 	clients := &http.Client{}
 	urls := "https://we.cqupt.edu.cn/api/news/jw_list.php"
-	reqs, _ := http.NewRequest("GET", urls, nil)
+	req, _ := http.NewRequest("GET", urls, nil)
 	var News models.News
-	resps, _ := clients.Do(reqs)
-	info, _ := ioutil.ReadAll(resps.Body)
-	fmt.Println(resps.StatusCode)
+	resp, _ := clients.Do(req)
+	info, _ := ioutil.ReadAll(resp.Body)
+	fmt.Println(resp.StatusCode)
 	err := json.Unmarshal(info, &News)
-	fmt.Println(err)
-	//随机新闻 前端要求的
+	if err != nil {
+		return nil, err
+	}
+	//随机新闻 前端要求的 emmm
+	defer resp.Body.Close()
 	var Rand models.News
-	return Rand
+	var wait sync.WaitGroup
+	wait.Add(1)
+
+	rand.Seed(time.Now().UnixNano())
+	go func() {
+		var count = 0
+		for true {
+		loop:
+			t := rand.Intn(20)
+			for _, v := range Rand.Message {
+				if v.Title == News.Message[t].Title {
+					goto loop
+				}
+			}
+			Rand.Message = append(Rand.Message, News.Message[t])
+			count++
+			if count == 4 {
+				wait.Done()
+				break
+			}
+		}
+	}()
+	wait.Wait()
+	Rand.Status = News.Status
+	return &Rand, nil
 
 }
