@@ -10,8 +10,8 @@ import (
 var DB *sql.DB
 
 func MysqlInit() *sql.DB {
-	a := utils.Init()
-	Dns := a.Mysql.User + ":" + a.Mysql.Word + "@tcp(110.42.216.125)/" + a.Mysql.Bases
+
+	Dns := utils.Au.Mysql.User + ":" + utils.Au.Mysql.Word + "@tcp(110.42.216.125)/" + utils.Au.Mysql.Bases
 	db, err := sql.Open("mysql", Dns)
 
 	//err = db.Ping()
