@@ -3,16 +3,16 @@ package router
 import (
 	"JD/controller"
 	"JD/hander"
-	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
+	"net/http"
 )
 
 func Entrance() {
 	r := gin.Default()
 	//使用中间件 获取用户部分状态
 	r.Use(hander.Cors())
-	r.Use(static.Serve("/", static.LocalFile("./front", false)))
 	//静态文件加载 但是貌似 有一丢丢慢
+	r.StaticFS("/front", http.Dir("./front"))
 	r.Static("/static", "/www/static")
 	//注册短信发送接口
 	r.GET("/register", controller.SendMessage)
@@ -84,8 +84,8 @@ func Entrance() {
 		//登出
 		admin.GET("/logout", hander.Auth(), controller.RootLogout)
 	}
-	r.Run(":8080")
+	//r.Run(":8080")
 	//runtls 实现https 访问 用的是腾讯的ssl 证书 不存在爆红
-	//r.RunTLS(":443", "test.pem", "test.key")
+	r.RunTLS(":443", "test.pem", "test.key")
 
 }
