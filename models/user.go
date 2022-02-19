@@ -13,7 +13,7 @@ type BasicInfo struct {
 // Balance 用户余额充值
 type Balance struct {
 	BasicInfo
-	Balance int `json:"balance,omitempty" form:"balance"`
+	Balance float64 `json:"balance,omitempty" form:"balance"`
 }
 
 // User token 附带用户信息
@@ -46,7 +46,7 @@ type UserImage struct {
 
 type MyInfo struct {
 	BasicInfo
-	Balance  int
+	Balance  float64
 	ImageUrl string
 	Category []Category
 }
