@@ -37,7 +37,7 @@ type UpdateOrder struct {
 }
 type AddChart struct {
 	BasicInfo
-	Gid   int `json:"gid,omitempty" form:"gid" binding:"required"`
+	Gid   int `json:"gid,omitempty" form:"gid" `
 	Count int `json:"count,omitempty" form:"count"`
 }
 
