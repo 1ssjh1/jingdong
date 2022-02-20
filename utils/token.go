@@ -30,7 +30,6 @@ func MakeToken(basicinfo models.BasicInfo) string {
 }
 func ParseToken(tokens string) (*models.BasicInfo, error) {
 	if tokens == "" {
-
 		err := errors.New("你是谁 验证信息不知道")
 		return nil, err
 	}
