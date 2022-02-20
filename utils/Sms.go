@@ -86,7 +86,7 @@ func Sendsms(Number string) error {
 		fmt.Println(*response.Response.SendStatusSet[0].Code)
 	}
 
-	SetCk(Number, code)
+	SetConform(Number, code)
 
 	return nil
 }
