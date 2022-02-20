@@ -3,7 +3,7 @@
 ### 用户 
 
 ~~~
-鉴权 主要通过在head 中的 Authorization 字段中间添加 登录时候返回的Token (无论用户或者管理着)
+鉴权 主要通过在head 中的 Authorization 字段中间添加  所有操作 登录时候返回的Token (无论用户或者管理着)
 ~~~
 
 可能反馈信息
@@ -84,7 +84,7 @@
 
 ### 登录
 
-`Post :/login ;  form 表单`
+`Post :/login ;  form-date`
 
 请求内容
 
@@ -108,7 +108,6 @@
 | false | 你还没注册登录个屁 | 用户未注册        |
 | false | 密码错误           | 无                |
 | true  | " "         | 可以开心的Happy了 |
-<<<<<<< HEAD
 
 
  ### 退出登录
@@ -171,13 +170,9 @@
 
 ## 用户模块
  ### 查询余额
-`method Get url /user/balance form表单`
+`method Get url /user/balance form-date`
 
-请求内容
 
-| 请求参数     | 类型 | 说明     |
-|----------| ---- | --- |
-| token    | 必选 | token |
 
 |返回参数| 说明         |
 |---|------------|
@@ -195,7 +190,7 @@
 |false|未查到用户信息| 信息缺失（这里会改 先检验用户是否存在） |
 
 ### 充值余额
-` method post url /user/balance form 表单`
+` method post url /user/balance form date`
 
 请求内容
 
@@ -203,7 +198,6 @@
 |请求参数|类型|说明|
 |---|---|---|
 |balance|必选|充值金额|
-|token|必选|验证toekn|
 
 
 
@@ -225,12 +219,6 @@
 ### 查看订单
 
 `method POST url:/user/order form-date`
-
-请求参数
-
-| 请求参数 | 说明       |
-| -------- | ---------- |
-| token    | 认证 token |
 
 返回参数
 
@@ -254,10 +242,9 @@
 
 请求参数
 
-| 请求参数 | 说明      |
-| -------- | --------- |
-| token    | 认证token |
-| oid      | 订单id    |
+| 请求参数 | 说明   |
+| -------- | ------ |
+| oid      | 订单id |
 
 返回参数
 
@@ -283,10 +270,9 @@
 
 请求参数
 
-| 请求参数 | 说明      |
-| -------- | --------- |
-| token    | 认证token |
-| oid      | 订单id    |
+| 请求参数 | 说明   |
+| -------- | ------ |
+| oid      | 订单id |
 
 返回参数
 
@@ -312,13 +298,9 @@
 
 ### 获取所有商品信息
 
-`method POST url: /shop/all  form 表单` 
+`method POST url: /shop/all  form -date` 
 
-请求内容
 
-| 请求参数     | 类型 | 说明     |
-|----------| ---- | --- |
-| token    | 必选 | token |
 
 
 |返回参数| 说明                        |
@@ -365,11 +347,10 @@ msg 详解
 
 请求内容
 
-|   参数   | 类型 | 说明       |
-| :------: | ---- | ---------- |
-|   cid    | 必选 | 商品类型Id |
-|  count   | 必选 | 数量       |
-|  token   | 必选 | 认证token  |
+| 参数  | 类型 | 说明   |
+| :---: | ---- | ------ |
+|  gid  | 必选 | 商品id |
+| count | 必选 | 数量   |
 
 返回参数
 
@@ -393,10 +374,6 @@ msg 详解
 `method GET url:/shop/chart  form-date`  
 
 请求参数
-
-| 请求参数 | 类型 | 说明      |
-| -------- | ---- | --------- |
-| token    | 必选 | 认证token |
 
 返回参数
 
@@ -428,12 +405,11 @@ msg 详解
 
 ` count ==0 表示从购物车移除该商品 可供修改cid 和 count  `
 
-| 请求参数 | 类型 | 说明      |
-| -------- | ---- | --------- |
-| gid      | 必选 | 商品id    |
-| cid      | 必选 | 类型Id    |
-| count    | 必选 | 数量      |
-| token    | 必选 | 认证token |
+| 请求参数 | 类型 | 说明   |
+| -------- | ---- | ------ |
+| gid      | 必选 | 商品id |
+| cid      | 必选 | 类型Id |
+| count    | 必选 | 数量   |
 
 返回参数
 
@@ -466,7 +442,6 @@ msg 详解
 | 请求参数 | 说明                    |
 | -------- | ----------------------- |
 | chart_id | 购物车商品id 可提交多个 |
-| token    | 认证token               |
 
 返回参数
 
@@ -539,11 +514,7 @@ lunbo002:{
 
 ` url :/user/    method :  GET     form-date`
 
-请求参数
 
-| 请求参数 | 说明          |
-| -------- | ------------- |
-| Token    | 用户认证TOKEN |
 
 返回参数 
 
@@ -931,7 +902,7 @@ url : /show  method :Get
 ### 获取评论
 
 ~~~go
-url :/shop/commit&gid=? method:GET   
+url :/shop/commit?gid=? method:GET   
 ~~~
 
 
@@ -956,7 +927,6 @@ url :/shop/commit&gid=? method:GET
 | state    | 状态                             |
 | msg      | 附带信息                         |
 | token    | 验证token 登录成功才会返回此信息 |
-|          |                                  |
 
 返回示例
 
@@ -977,7 +947,6 @@ url :/shop/commit&gid=? method:GET
 | -------- | ---- |
 | state    | 状态 |
 | msg      | 信息 |
-|          |      |
 
 返回实例
 
@@ -986,7 +955,6 @@ url :/shop/commit&gid=? method:GET
 | false    | 参数缺失     |
 | false    | 数据查询失败 |
 | true     | 所有信息     |
-|          |              |
 
 ### 更新订单
 
