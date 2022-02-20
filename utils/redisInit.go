@@ -1,21 +1,20 @@
 package utils
 
 import (
-	"fmt"
-	//"context"
 	redigo "github.com/gomodule/redigo/redis"
 	"time"
 )
 
+var RedisPool *redigo.Pool
+
 // PoolInitRedis 之前放在dao 下面的 结果出现循环引用
 func PoolInitRedis() *redigo.Pool {
-	au := Init()
-	server := au.Redis.Host + ":" + au.Redis.Port
-	password := au.Redis.Passwd
-	return &redigo.Pool{
-		MaxIdle:     2, //空闲数
+	server := Au.Redis.Host + ":" + Au.Redis.Port
+	password := Au.Redis.Passwd
+	redisPool := &redigo.Pool{
+		MaxIdle:     4, //空闲数
 		IdleTimeout: 240 * time.Second,
-		MaxActive:   3, //最大数
+		MaxActive:   10, //最大数
 		Dial: func() (redigo.Conn, error) {
 			c, err := redigo.Dial("tcp", server)
 			if err != nil {
@@ -29,10 +28,7 @@ func PoolInitRedis() *redigo.Pool {
 			}
 			return c, err
 		},
-		TestOnBorrow: func(c redigo.Conn, t time.Time) error {
-			Pong, err := c.Do("PING")
-			fmt.Println(Pong)
-			return err
-		},
 	}
+	RedisPool = redisPool
+	return RedisPool
 }

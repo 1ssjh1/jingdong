@@ -40,7 +40,7 @@ func Register(c *gin.Context) {
 		return
 	}
 	//参数传递 进行校验
-	err = utils.GetCk(register.Number, register.Code)
+	err = utils.GetConform(register.Number, register.Code)
 	if err != nil {
 		c.JSON(200, gin.H{
 			"state": false,

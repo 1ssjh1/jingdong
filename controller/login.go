@@ -2,7 +2,6 @@ package controller
 
 import (
 	"JD/dao"
-	"JD/hander"
 	"JD/models"
 	"JD/utils"
 	"github.com/gin-gonic/gin"
@@ -26,8 +25,15 @@ func Login(c *gin.Context) {
 		})
 		return
 	}
-	token := hander.Login(c, *Info)
-
+	token := utils.MakeToken(*Info)
+	ok := utils.SetToken(token)
+	if !ok {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "登录失败",
+		})
+		return
+	}
 	c.JSON(200, gin.H{
 		"state": true,
 		"msg":   "登录成功",
@@ -37,22 +43,16 @@ func Login(c *gin.Context) {
 
 }
 func Logout(context *gin.Context) {
-	cookie, err := context.Cookie("Userinfo")
-	if err != nil {
+	Authorization := context.Request.Header.Get("Authorization")
+	ok := utils.DeleteToken(Authorization)
+	if !ok {
+
 		context.JSON(200, gin.H{
 			"state": false,
 			"msg":   "退出登录失败",
 		})
 		return
 	}
-	if cookie == "" {
-		context.JSON(200, gin.H{
-			"state": false,
-			"msg":   "你丫还没登录呢",
-		})
-		return
-	}
-	context.SetCookie("Userinfo", "", 0, "/", "sanser,ltd", false, false)
 	context.JSON(200, gin.H{
 		"state": true,
 		"msg":   "退出登录成功",
@@ -69,7 +69,7 @@ func Find(c *gin.Context) {
 		})
 		return
 	}
-	err = utils.GetCk(Forget.Number, Forget.Code)
+	err = utils.GetConform(Forget.Number, Forget.Code)
 	if err != nil {
 		c.JSON(200, gin.H{
 			"state": false,

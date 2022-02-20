@@ -30,7 +30,15 @@ func RootLogin(c *gin.Context) {
 	BasicInfo.Uid = 0
 	BasicInfo.Username = admin.Name
 	token := utils.MakeToken(BasicInfo)
-	c.SetCookie("super", admin.Name, 3600, "/", "sanser.ltd", false, false)
+	ok = utils.SetToken(token)
+	if !ok {
+		c.JSON(20, gin.H{
+			"state": false,
+			"msg":   "登录失败",
+		})
+		return
+
+	}
 	c.JSON(200, gin.H{
 		"code":  ok,
 		"msg":   state,
@@ -40,7 +48,15 @@ func RootLogin(c *gin.Context) {
 
 }
 func RootLogout(c *gin.Context) {
-	c.SetCookie("super", "", -1, "/", "sanser.ltd", false, false)
+	Authorization := c.Request.Header.Get("Authorization")
+	ok := utils.DeleteToken(Authorization)
+	if !ok {
+		c.JSON(200, gin.H{
+			"state": false,
+			"msg":   "退出登录失败",
+		})
+		return
+	}
 	c.JSON(200, gin.H{
 		"state": true,
 		"msg":   "退出登录成功",

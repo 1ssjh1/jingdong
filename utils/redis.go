@@ -2,12 +2,13 @@ package utils
 
 import (
 	"errors"
+	"fmt"
 	"github.com/gomodule/redigo/redis"
 )
 
-func SetCk(n string, x string) bool {
+func SetConform(n string, x string) bool {
 	//参照 官方示例 写个redis 短信验证 过期检验 很简单 很烂
-	c := PoolInitRedis().Get()
+	c := RedisPool.Get()
 	defer c.Close()
 	_, err := c.Do("SET", n, x, "EX", 300)
 	if err != nil {
@@ -15,19 +16,55 @@ func SetCk(n string, x string) bool {
 	}
 	return true
 }
-func GetCk(n string, s string) error {
+func GetConform(Number string, ConformCode string) error {
 	//
-	c := PoolInitRedis().Get()
+	c := RedisPool.Get()
 	//
 	defer c.Close()
-	v, err := redis.String(c.Do("GET", n))
+	ok, err := redis.Bool(c.Do("EXIST", Number))
+	if !ok {
+		err = errors.New("验证码过期或未发送")
+		return err
+	}
+	v, err := redis.String(c.Do("GET", Number))
 	if err == redis.ErrNil {
 		err = errors.New("验证码超时")
 		return err
 	}
-	if v != s {
+	if v != ConformCode {
 		err = errors.New("验证码错误")
 		return err
 	}
 	return nil
+}
+
+func SetToken(token string) bool {
+	c := RedisPool.Get()
+	defer c.Close()
+	//与token 验证时间一致
+	_, err := redis.String(c.Do("SET", token, "", "EX", 1800))
+	if err != nil {
+		fmt.Println(err)
+		return false
+	}
+	return true
+
+}
+func ConformToken(token string) bool {
+	c := RedisPool.Get()
+	defer c.Close()
+	ok, err := redis.Bool(c.Do("EXISTS", token))
+	if err != nil {
+		return false
+	}
+	return ok
+}
+func DeleteToken(token string) bool {
+	c := RedisPool.Get()
+	defer c.Close()
+	ok, err := redis.Bool(c.Do("DEL", token))
+	if err != nil {
+		return false
+	}
+	return ok
 }
