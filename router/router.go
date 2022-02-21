@@ -3,16 +3,18 @@ package router
 import (
 	"JD/controller"
 	"JD/hander"
+	"github.com/gin-contrib/static"
 	"github.com/gin-gonic/gin"
-	"net/http"
 )
 
 func Entrance() {
+
 	r := gin.Default()
 	//使用中间件 获取用户部分状态
 	r.Use(hander.Cors())
 	//静态文件加载 但是貌似 有一丢丢慢
-	r.StaticFS("/front", http.Dir("./front"))
+	//r.StaticFS("/", http.Dir("./front"))
+	r.Use(static.Serve("/", static.LocalFile("./front", false)))
 	r.Static("/static", "/www/static")
 	//注册短信发送接口
 	r.GET("/register", controller.SendMessage)
