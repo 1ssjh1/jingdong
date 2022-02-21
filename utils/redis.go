@@ -20,7 +20,7 @@ func GetConform(Number string, ConformCode string) error {
 	c := RedisPool.Get()
 	//
 	defer c.Close()
-	ok, err := redis.Bool(c.Do("EXIST", Number))
+	ok, err := redis.Bool(c.Do("EXISTS", Number))
 	if !ok {
 		err = errors.New("验证码过期或未发送")
 		return err

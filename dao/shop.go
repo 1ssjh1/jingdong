@@ -262,9 +262,9 @@ func DeleteOrder(order models.UpdateOrder) error {
 		err = errors.New("怎么可以动别人的订单呢")
 		return err
 	}
-	if templestate == "已完成" {
+	if templestate != "已完成" {
 
-		err = errors.New("已经完成订单了 概不负责了哦")
+		err = errors.New("客官 订单还没跑完呢 不要抛弃我呀")
 		return err
 	}
 	stm, err = DB.Prepare("delete from user_order where oid =?")
