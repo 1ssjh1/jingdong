@@ -33,7 +33,7 @@ type GoodsBasicInfo struct {
 // UpdateOrder 删除订单
 type UpdateOrder struct {
 	BasicInfo
-	Oid string `json:"oid,omitempty" form:"oid"`
+	Oid int `json:"oid,omitempty" form:"oid"`
 }
 type AddChart struct {
 	BasicInfo
@@ -44,7 +44,7 @@ type AddChart struct {
 // ShopChart 用于加入购车
 type ShopChart struct {
 	BasicInfo
-	ChartId int `form:"chartid" json:"chartid,omitempty"`
+	ChartId int `form:"chart_id" json:"chart_id,omitempty"`
 	Count   int `form:"count" json:"count,omitempty"`
 }
 type Userinfo struct {
