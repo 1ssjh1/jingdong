@@ -7,6 +7,7 @@ import (
 	"time"
 )
 
+// MyClaims 仿照官方 将用户基本信息负载在token里
 type MyClaims struct {
 	models.BasicInfo
 	jwt.StandardClaims
