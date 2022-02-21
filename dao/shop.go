@@ -223,7 +223,11 @@ func UpdateOrder(order models.UpdateOrder) error {
 	}
 	var Orderstate string
 	err = stm.QueryRow(order.Oid).Scan(&Orderstate)
-	if Orderstate == "已支付" {
+	if Orderstate != "已支付" {
+		if Orderstate == "已完成" {
+			err = errors.New("订单已经完成了哦")
+			return err
+		}
 		err = errors.New("还未发货 着啥急")
 		return err
 	}
