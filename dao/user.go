@@ -283,7 +283,7 @@ func UpdateChart(chart models.ShopChart) (bool, string) {
 		err = stm.QueryRow(chart.ChartId).Scan(&Temple.Uid)
 		if err != nil {
 			fmt.Println(err)
-			return false, "失败"
+			return false, "失败 呜呜呜"
 		}
 		if Temple.Uid != chart.Uid {
 			return false, "你怎么能动别人的订单呢"
@@ -291,25 +291,39 @@ func UpdateChart(chart models.ShopChart) (bool, string) {
 
 		stm, err = DB.Prepare("delete from shop_chart where chart_id=?")
 		if err != nil {
-			return false, "失败"
+			return false, "失败 呜呜  呜"
 
 		}
 		_, err = stm.Exec(chart.ChartId)
 		if err != nil {
-			return false, "失败"
+			return false, "失败呜呜呜"
 
 		}
 		return true, "宝贝忍痛离开了购物车"
 
 	}
-	stm, err := DB.Prepare("update shop_chart set count =?  where chart_id=? ")
+	stm, err := DB.Prepare("select uid  from shop_chart where chart_id=? ")
+	var Temple models.ShopChart
+	row, err := stm.Query(chart.ChartId)
+	for row.Next() {
+		err = row.Scan(&Temple.Uid)
+	}
+	if err != nil {
+		fmt.Println(err, "+1")
+		return false, "失败  没有查到该订单"
+	}
+	if Temple.Uid != chart.Uid {
+		return false, "你怎么能动别人的订单呢"
+	}
+	stm, err = DB.Prepare("update shop_chart set Count =?  where chart_id=? ")
 	if err != nil {
 		fmt.Println(err)
-		return false, "失败"
+		return false, "失败 怎那么就失败呢"
 	}
+	fmt.Println(chart)
 	_, err = stm.Exec(chart.Count, chart.ChartId)
 	if err != nil {
-		return false, "失败"
+		return false, "失败 怎么就是白呢"
 	}
 	return true, "操作成功"
 }
