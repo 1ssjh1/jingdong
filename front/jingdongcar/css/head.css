@@ -1,0 +1,128 @@
+body {
+    background-color: #f4f4f4;
+    min-width: 1500px;
+}
+
+button {
+    font-family: "iconfont";
+}
+
+
+/* ----------head---------- */
+
+.head .pic {
+    width: 100%;
+    background-color: #e3e4e5;
+    border-bottom: 1px solid #ddd;
+    margin: 0 auto;
+}
+
+.head .nav {
+    margin: 0 auto;
+    width: 1190px;
+    height: 30px;
+    color: #999;
+    background-color: #e3e4e5;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+}
+
+.head .nav a {
+    color: #999;
+}
+
+.head .nav .address {
+    flex: 1;
+    line-height: 30px;
+    font-size: 12px;
+}
+
+.head .nav .address i {
+    color: #f10215;
+}
+
+.head .nav>ul {
+    flex: 2.5;
+    display: flex;
+    flex-flow: wrap nowrap;
+    justify-content: space-evenly;
+}
+
+.head .nav>ul>li {
+    width: 70px;
+    font-size: 12px;
+    line-height: 30px;
+}
+
+.head .nav>ul>li:hover {
+    color: #f10215;
+}
+
+.head .nav>ul a:hover {
+    color: #f10215;
+}
+
+
+/* ----地区----- */
+
+.head .address .local_list {
+    width: 300px;
+    height: 196px;
+    border: solid 1px;
+    border-color: #ccc;
+    position: absolute;
+    top: 30px;
+    padding: 10px;
+    background-color: white;
+    z-index: 10;
+    display: none;
+}
+
+.head .address:hover .local_list {
+    display: block;
+}
+
+.head .address .item {
+    width: 60px;
+    height: 24px;
+    padding: 2px 0 2px 0;
+    float: left;
+}
+
+
+/* ----地区----- */
+
+
+/* ---------我的京东--------- */
+
+.head .nav .myJinDong {
+    position: relative;
+}
+
+.head .nav .myJinDong i {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    color: #999;
+}
+
+.head .nav .myJinDong ul {
+    position: absolute;
+    width: 280px;
+    border: 1px solid #ccc;
+    z-index: 10;
+    background-color: rgb(255, 255, 255);
+    display: none;
+}
+
+.head .nav .myJinDong ul li {
+    width: 120px;
+    height: 20px;
+    float: left;
+    padding: 10px 0px 10px 5px;
+}
+
+.head .nav .myJinDong:hover ul {
+    display: block;
+}

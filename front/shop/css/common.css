@@ -1,0 +1,419 @@
+/* 预设 */
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+dl,
+dd {
+    margin: 0;
+}
+
+body {
+    font-size: 14px;
+    color: #333;
+    font-family: "微软雅黑", "iconfont";
+}
+
+i {
+    font-style: normal;
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+a {
+    cursor: pointer;
+    text-decoration: none;
+    color: #333;
+}
+
+input {
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+}
+
+
+/* label标签垂直居中 */
+
+label {
+    vertical-align: middle;
+}
+
+.clearfix:after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+
+/* 表格之间边距重合 */
+
+table {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 0;
+}
+
+.center {
+    width: 1090px;
+    margin: 0 auto;
+}
+
+.disappear {
+    display: none;
+}
+
+.appear {
+    display: block;
+}
+
+input {
+    outline: none;
+}
+
+
+/* 
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+} */
+
+
+/* head */
+
+.head .pic {
+    width: 100%;
+    background-color: #e3e4e5;
+    border-bottom: 1px solid #ddd;
+    margin: 0 auto;
+}
+
+.head .nav {
+    margin: 0 auto;
+    width: 1190px;
+    height: 30px;
+    color: #999;
+    background-color: #e3e4e5;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+}
+
+.head .nav a {
+    color: #999;
+}
+
+.head .nav .address {
+    flex: 1;
+    line-height: 30px;
+    font-size: 12px;
+}
+
+.head .nav .address i {
+    color: #f10215;
+}
+
+.head .nav>ul {
+    flex: 2.5;
+    display: flex;
+    flex-flow: wrap nowrap;
+    justify-content: space-evenly;
+}
+
+.head .nav>ul>li {
+    width: 70px;
+    font-size: 12px;
+    line-height: 30px;
+}
+
+.head .nav>ul>li:hover {
+    color: #f10215;
+}
+
+.head .nav>ul a:hover {
+    color: #f10215;
+}
+
+
+/* ----地区----- */
+
+.head .address .local_list {
+    width: 300px;
+    height: 196px;
+    border: solid 1px;
+    border-color: #ccc;
+    position: absolute;
+    top: 30px;
+    padding: 10px;
+    background-color: white;
+    z-index: 10;
+    display: none;
+}
+
+.head .address:hover .local_list {
+    display: block;
+}
+
+.head .address .item {
+    width: 60px;
+    height: 24px;
+    padding: 2px 0 2px 0;
+    float: left;
+}
+
+
+/* ----地区----- */
+
+
+/* ---------我的京东--------- */
+
+.head .nav .myJinDong {
+    position: relative;
+}
+
+.head .nav .myJinDong i {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    color: #999;
+}
+
+.head .nav .myJinDong ul {
+    position: absolute;
+    width: 280px;
+    border: 1px solid #ccc;
+    z-index: 10;
+    background-color: rgb(255, 255, 255);
+    display: none;
+}
+
+.head .nav .myJinDong ul li {
+    width: 120px;
+    height: 20px;
+    float: left;
+    padding: 10px 0px 10px 5px;
+}
+
+.head .nav .myJinDong:hover ul {
+    display: block;
+}
+
+
+/* ---------我的京东--------- */
+
+
+/* -----------search---------- */
+
+
+/* -----------search布局---------- */
+
+.search-nav {
+    position: relative;
+    height: 150px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.search-nav .left {
+    width: 700px;
+    margin-right: -250px;
+}
+
+.search-nav .right {
+    /* width: 400px; */
+    margin-right: 200px;
+}
+
+.search-nav>a img {
+    display: block;
+    height: 120px;
+    margin: 0px auto;
+}
+
+.search-nav .center {
+    width: 600px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.search-nav .center .search .search-left {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+}
+
+.search-nav .center .search {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    position: relative;
+}
+
+.search-nav .center .prompt ul {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+}
+
+.search-nav .center .under-nav ul {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+}
+
+
+/* -----------search布局---------- */
+
+.search-nav .center .search .search-left {
+    width: 420px;
+    height: 32px;
+    border: 2px solid #e2231a;
+    background: #fff;
+}
+
+.search-nav .center .search input {
+    padding: 2px 44px 2px 17px;
+    width: 300px;
+    height: 26px;
+    border: 1px solid transparent;
+    line-height: 26px;
+    font-size: 12px;
+}
+
+.search-nav .center .search input:focus {
+    border: none;
+    outline: none;
+}
+
+.search-nav .center .search .search-left i {
+    line-height: 32px;
+    font-size: 20px;
+    text-align: center;
+    color: #ddd;
+    margin-left: -5px;
+}
+
+.search-nav .center .search button {
+    border-radius: 0;
+    right: 0;
+    width: 58px;
+    height: 32px;
+    line-height: 32px;
+    border: none;
+    background-color: #e1251b;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-left: 6px;
+}
+
+.search-nav .center .search button:hover {
+    background-color: #bb271f;
+}
+
+.search-nav .myShopping {
+    position: absolute;
+    float: left;
+    right: -200px;
+    border: 1px solid #e3e4e5;
+    width: 130px;
+    height: 34px;
+    text-align: center;
+}
+
+.search-nav .myShopping:hover {
+    border: 1px solid #e2231a;
+}
+
+.search-nav .myShopping a:hover {
+    color: #e2231a;
+}
+
+.search-nav .myShopping a {
+    position: relative;
+}
+
+.search-nav .myShopping>i {
+    line-height: 32px;
+    font-size: 20px;
+    text-align: center;
+    color: #ddd;
+    margin-left: -5px;
+}
+
+.search-nav .myShopping a {
+    margin-left: 15px;
+}
+
+.search-nav .myShopping a i {
+    font-weight: 700;
+    font: 17px/20px;
+    position: absolute;
+    border-radius: 100%;
+    line-height: 17px;
+    width: 17px;
+    height: 17px;
+    left: -25px;
+    border: #f10215 solid 1px;
+    color: white;
+    background-color: #f10215;
+}
+
+.search-nav .center .prompt {
+    margin-top: -30px;
+}
+
+.search-nav .center .prompt li {
+    margin-left: 15px;
+}
+
+.search-nav .center .under-nav a {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    font-size: 15px;
+    color: #333;
+}
+
+.search-nav .center .under-nav a:hover {
+    color: #e1251b;
+}
+
+.search-nav .center .under-nav li {
+    margin-left: 20px;
+}
+
+.search-nav .center .under-nav ul li:nth-child(-n+2) a {
+    font-weight: 700;
+    color: #e1251b;
+}
+
+.search-nav .center .under-nav ul li:nth-child(-n+2) a:hover {
+    color: #bb271f;
+}

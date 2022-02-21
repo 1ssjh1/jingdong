@@ -1,0 +1,202 @@
+/* 字体图标 */
+
+
+/* 字体图标 */
+
+
+/* 预设 */
+
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+p,
+dl,
+dd {
+    margin: 0;
+}
+
+body {
+    font-size: 14px;
+    color: #333;
+    font-family: "微软雅黑", "iconfont";
+}
+
+ul,
+ol {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+img {
+    border: none;
+    vertical-align: middle;
+}
+
+a {
+    text-decoration: none;
+    color: #333;
+}
+
+input {
+    margin: 0;
+    padding: 0;
+    vertical-align: middle;
+    border: 1px solid #ccc;
+}
+
+
+/* label标签垂直居中 */
+
+label {
+    vertical-align: middle;
+}
+
+
+/* 表格之间边距重合 */
+
+table {
+    border-collapse: collapse;
+}
+
+th,
+td {
+    padding: 0;
+}
+
+.center {
+    width: 1090px;
+    margin: 0 auto;
+}
+
+.left {
+    float: left;
+}
+
+.right {
+    float: right;
+}
+
+
+/* 清除浮动 */
+
+.clearfix:after {
+    content: "";
+    clear: both;
+    display: block;
+}
+
+.original {
+    background: #f4f4f4 url() center no-repeat;
+}
+
+input {
+    outline: none;
+}
+
+
+/* 预设 */
+
+
+/* ----------导航----------  */
+
+
+/* .nav-left */
+
+body {
+    min-width: 1400px;
+}
+
+#head>div {
+    display: flex;
+    justify-content: space-around;
+    height: 118px;
+    /*  阴影 */
+    border-bottom: 1px solid #f3f3f3;
+    box-shadow: 0 2px 2px #f3f3f3;
+}
+
+#head .nav-left {
+    display: flex;
+    justify-content: center;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+#head .nav-left a {
+    display: block;
+    width: 160px;
+    height: 50px;
+    background-color: red;
+    background: url(./img/icon.png)
+}
+
+#head .nav-left span {
+    font-size: 24px;
+    height: 34px;
+    line-height: 24px;
+    margin-top: 14px;
+    color: #333;
+}
+
+
+/* .nav-right */
+
+#head .nav-right {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: flex-end;
+}
+
+#head .nav-right {
+    font-size: 16px;
+    margin-bottom: 28px;
+}
+
+#head .nav-right a {
+    color: #e22;
+}
+
+#head .nav-right span {
+    color: #999;
+}
+
+#head .nav-right a:hover {
+    text-decoration: underline;
+}
+
+
+/* ----------导航------------- */
+
+hr {
+    display: block;
+    height: 0.1px;
+    background-color: #999;
+}
+
+
+/* ----------footer---------- */
+
+.footer {
+    height: 100px;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.footer a:hover {
+    text-decoration: underline;
+}
+
+.footer a {
+    color: #999;
+    margin: 0 10px;
+}
+
+
+/* ----------footer---------- */

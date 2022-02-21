@@ -1,0 +1,172 @@
+.banner_slide {
+    list-style: none;
+    position: relative;
+    margin: auto;
+    width: 590px;
+    height: 470px;
+    padding: 0;
+}
+
+.banner_slide span {
+    position: absolute;
+    width: 25px;
+    height: 35px;
+    line-height: 35px;
+    background-color: #d9d9d9;
+    background-color: rgba(0, 0, 0, .15);
+    font-size: 20px;
+    border: none;
+    outline: none;
+}
+
+.banner_slide .pre {
+    cursor: pointer;
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+    left: 0px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.banner_slide .next {
+    cursor: pointer;
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1;
+}
+
+.banner_slide li {
+    position: absolute;
+    float: left;
+    opacity: 0;
+}
+
+.banner_slide div {
+    box-sizing: border-box;
+    position: absolute;
+    border-radius: 50%;
+    width: 12px;
+    height: 12px;
+    /* margin-right: 4px; */
+    border: 1px solid rgba(0, 0, 0, .05);
+    background: rgba(255, 255, 255, .4);
+    bottom: 0px;
+    transform: translateY(-300%);
+}
+
+.banner_slide .active {
+    transition: 1s ease;
+    opacity: 1;
+}
+
+.banner_slide .point {
+    border: 3px solid rgba(0, 0, 0, .1);
+    background: rgba(255, 255, 255);
+}
+
+
+/* 第二个轮播图 */
+
+.seconds_kill .right .kill_slide {
+    width: 800px;
+    height: 260px;
+    margin: 0 auto;
+    display: flex;
+    position: relative;
+    background-color: #fefefe;
+    overflow: hidden;
+}
+
+.seconds_kill .right .kill_slide .warp {
+    display: flex;
+    position: relative;
+    transition: 1s ease;
+    left: 0;
+}
+
+.seconds_kill .right .kill_slide .list {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.seconds_kill .right .kill_slide .list img {
+    width: 140px;
+    height: 140px;
+}
+
+.seconds_kill .right .kill_slide .list li {
+    height: 260px;
+    width: 200px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.seconds_kill .right .kill_slide h4 {
+    color: rebeccapurple;
+}
+
+.seconds_kill .right .kill_slide h5 {
+    color: rebeccapurple
+}
+
+.seconds_kill .right .kill_slide .right {
+    border-top-left-radius: 18px;
+    border-bottom-left-radius: 18px;
+    right: -130px;
+}
+
+.seconds_kill .right .kill_slide span {
+    width: 25px;
+    background-color: rgba(0, 0, 0, .15);
+    height: 35px;
+    line-height: 35px;
+    top: 130px;
+    transform: translateY(-50%);
+    color: #666;
+    position: absolute;
+    font-size: 20px;
+}
+
+.seconds_kill .right .kill_slide .left {
+    /* float: left; 
+     z-index: 10; */
+    border-top-right-radius: 18px;
+    border-bottom-right-radius: 18px;
+    left: 0;
+}
+
+
+/* 小圆点 */
+
+.seconds_kill .right .kill_slide .point {
+    position: absolute;
+    background-color: #666;
+    bottom: 20px;
+    left: 0;
+}
+
+.seconds_kill .right .kill_slide .point li {
+    position: absolute;
+    display: block;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    border: 1px solid rgba(0, 0, 0, .05);
+    background: rgb(80, 76, 76)
+}
+
+.seconds_kill .right .kill_slide .point .active {
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    border: 5px solid rgba(0, 0, 0, .05);
+    background: rgb(80, 76, 76, 0.5)
+}

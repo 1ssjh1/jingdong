@@ -1,0 +1,1047 @@
+@font-face {
+    font-family: 'iconfont';
+    /* project id 3170933 */
+    src: url('');
+    src: url('?#iefix') format('embedded-opentype'), url('//at.alicdn.com/t/font_3170933_fx8fe01nrm.woff2') format('woff2'), url('//at.alicdn.com/t/font_3170933_fx8fe01nrm.woff') format('woff'), url('//at.alicdn.com/t/font_3170933_fx8fe01nrm.ttf') format('truetype'), url('#iconfont') format('svg');
+}
+
+body {
+    background-color: #f4f4f4;
+    min-width: 1500px;
+}
+
+button {
+    font-family: "iconfont";
+}
+
+
+/* ----------head---------- */
+
+.head .pic {
+    width: 100%;
+    background-color: #e3e4e5;
+    border-bottom: 1px solid #ddd;
+    margin: 0 auto;
+}
+
+.head .nav {
+    margin: 0 auto;
+    width: 1190px;
+    height: 30px;
+    color: #999;
+    background-color: #e3e4e5;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+}
+
+.head .nav a {
+    color: #999;
+}
+
+.head .nav .address {
+    flex: 1;
+    line-height: 30px;
+    font-size: 12px;
+}
+
+.head .nav .address i {
+    color: #f10215;
+}
+
+.head .nav>ul {
+    flex: 2.5;
+    display: flex;
+    flex-flow: wrap nowrap;
+    justify-content: space-evenly;
+}
+
+.head .nav>ul>li {
+    width: 70px;
+    font-size: 12px;
+    line-height: 30px;
+}
+
+.head .nav>ul>li:hover {
+    color: #f10215;
+}
+
+.head .nav>ul a:hover {
+    color: #f10215;
+}
+
+
+/* ----地区----- */
+
+.head .address .local_list {
+    width: 300px;
+    height: 196px;
+    border: solid 1px;
+    border-color: #ccc;
+    position: absolute;
+    top: 30px;
+    padding: 10px;
+    background-color: white;
+    z-index: 10;
+    display: none;
+}
+
+.head .address:hover .local_list {
+    display: block;
+}
+
+.head .address .item {
+    width: 60px;
+    height: 24px;
+    padding: 2px 0 2px 0;
+    float: left;
+}
+
+
+/* ----地区----- */
+
+
+/* ---------我的京东--------- */
+
+.head .nav .myJinDong {
+    position: relative;
+}
+
+.head .nav .myJinDong i {
+    position: absolute;
+    top: 14px;
+    right: 20px;
+    color: #999;
+}
+
+.head .nav .myJinDong ul {
+    position: absolute;
+    width: 280px;
+    border: 1px solid #ccc;
+    z-index: 10;
+    background-color: rgb(255, 255, 255);
+    display: none;
+}
+
+.head .nav .myJinDong ul li {
+    width: 120px;
+    height: 20px;
+    float: left;
+    padding: 10px 0px 10px 5px;
+}
+
+.head .nav .myJinDong:hover ul {
+    display: block;
+}
+
+
+/* ---------我的京东--------- */
+
+
+/* -----------search---------- */
+
+
+/* -----------search布局---------- */
+
+.search-nav {
+    position: relative;
+    height: 150px;
+    background: #fff;
+    border-bottom: 1px solid #ddd;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.search-nav .left {
+    width: 700px;
+    margin-right: -250px;
+}
+
+.search-nav .right {
+    /* width: 400px; */
+    margin-right: 200px;
+}
+
+.search-nav>a img {
+    display: block;
+    height: 120px;
+    margin: 0px auto;
+}
+
+.search-nav .center {
+    width: 600px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+.search-nav .center .search .search-left {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+}
+
+.search-nav .center .search {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    position: relative;
+}
+
+.search-nav .center .prompt ul {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+}
+
+.search-nav .center .under-nav ul {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+}
+
+
+/* -----------search布局---------- */
+
+.search-nav .center .search .search-left {
+    width: 420px;
+    height: 32px;
+    border: 2px solid #e2231a;
+    background: #fff;
+}
+
+.search-nav .center .search input {
+    padding: 2px 44px 2px 17px;
+    width: 300px;
+    height: 26px;
+    border: 1px solid transparent;
+    line-height: 26px;
+    font-size: 12px;
+}
+
+.search-nav .center .search input:focus {
+    border: none;
+    outline: none;
+}
+
+.search-nav .center .search .search-left i {
+    line-height: 32px;
+    font-size: 20px;
+    text-align: center;
+    color: #ddd;
+    margin-left: -5px;
+}
+
+.search-nav .center .search button {
+    border-radius: 0;
+    right: 0;
+    width: 58px;
+    height: 32px;
+    line-height: 32px;
+    border: none;
+    background-color: #e1251b;
+    font-size: 20px;
+    font-weight: 700;
+    color: #fff;
+    margin-left: 6px;
+}
+
+.search-nav .center .search button:hover {
+    background-color: #bb271f;
+}
+
+.search-nav .myShopping {
+    position: absolute;
+    float: left;
+    right: -200px;
+    border: 1px solid #e3e4e5;
+    width: 130px;
+    height: 34px;
+    text-align: center;
+}
+
+.search-nav .myShopping:hover {
+    border: 1px solid #e2231a;
+}
+
+.search-nav .myShopping a:hover {
+    color: #e2231a;
+}
+
+.search-nav .myShopping a {
+    position: relative;
+}
+
+.search-nav .myShopping>i {
+    line-height: 32px;
+    font-size: 20px;
+    text-align: center;
+    color: #ddd;
+    margin-left: -5px;
+}
+
+.search-nav .myShopping a {
+    margin-left: 15px;
+}
+
+.search-nav .myShopping a i {
+    font-weight: 700;
+    font: 17px/20px;
+    position: absolute;
+    border-radius: 100%;
+    line-height: 17px;
+    width: 17px;
+    height: 17px;
+    left: -25px;
+    border: #f10215 solid 1px;
+    color: white;
+    background-color: #f10215;
+}
+
+.search-nav .center .prompt {
+    margin-top: -30px;
+}
+
+.search-nav .center .prompt li {
+    margin-left: 15px;
+}
+
+.search-nav .center .under-nav a {
+    display: block;
+    height: 40px;
+    line-height: 40px;
+    font-size: 15px;
+    color: #333;
+}
+
+.search-nav .center .under-nav a:hover {
+    color: #e1251b;
+}
+
+.search-nav .center .under-nav li {
+    margin-left: 20px;
+}
+
+.search-nav .center .under-nav ul li:nth-child(-n+2) a {
+    font-weight: 700;
+    color: #e1251b;
+}
+
+.search-nav .center .under-nav ul li:nth-child(-n+2) a:hover {
+    color: #bb271f;
+}
+
+
+/* -----------search---------- */
+
+
+/* ----------head---------- */
+
+
+/* ----------banner---------- */
+
+
+/* ----------总体------------ */
+
+.banner {
+    margin: 10px auto 0;
+    margin-top: 10px;
+    width: 1120px;
+    position: relative;
+    display: flex;
+    /* border: 2px solid pink; */
+}
+
+
+/* ----------总体------------ */
+
+
+/* left */
+
+.banner .warp {
+    height: 470px;
+    width: 190px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.banner .list_nav_menu {
+    height: 100%;
+    width: 100%;
+}
+
+.banner .list_nav_menu ul {
+    display: block;
+    height: 100%;
+    width: 100%;
+    background-color: #fefefe;
+    color: #636363;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: flex-start;
+}
+
+.banner .list_nav_menu ul>li {
+    margin-top: -2px;
+    font-weight: normal;
+    font-size: 12px;
+    line-height: 30px;
+    width: 100%;
+}
+
+.banner .list_nav_menu ul li :hover {
+    transition: 0.7s ease;
+    background-color: rgb(217, 217, 217);
+}
+
+.banner .warp .popupp {
+    width: 1000px;
+    height: 500px;
+    position: absolute;
+    background-color: #fff;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, .3);
+    border: 1px solid #f7f7f7;
+    left: 190px;
+    top: 0.2px;
+    z-index: 5;
+}
+
+.banner .warp .popupp .left {
+    width: 80%;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+.banner .warp .popupp .left .barand_list {
+    height: 50px;
+    width: 100%;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.banner .warp .popupp .left .barand_list a {
+    margin-right: 10px;
+    padding: 0 10px;
+    height: 24px;
+    background-color: #333;
+    line-height: 24px;
+    color: #fff;
+}
+
+.banner .warp .popupp .left .nav_con {
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    align-items: flex-start;
+    justify-content: start;
+}
+
+.banner .warp .popupp .left .nav_con dl {
+    height: 100%;
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: start;
+    align-items: stretch;
+    align-content: stretch;
+    /* margin: 3px 0;
+    padding: 0 7px;
+    height: 16px;
+    line-height: 16px; */
+}
+
+.banner .warp .popupp .left .nav_con dl dt {
+    margin: 3px 0;
+    padding: 0 7px;
+    color: #333;
+    font-weight: 700;
+    font-size: larger;
+}
+
+.banner .warp .popupp .left a:hover {
+    color: #e2231a;
+    transition: none;
+}
+
+.banner .warp .section {
+    height: 100%;
+    display: flex;
+}
+
+.banner .warp .section .right {
+    width: 20%;
+    height: 100%;
+}
+
+.banner .warp .section .right .pic {
+    margin-top: 15px;
+}
+
+.banner .warp .section .right a img {
+    width: 83px;
+    height: 35px;
+}
+
+.banner .warp .popupp {
+    display: none;
+}
+
+
+/* 侧边nav hover */
+
+.banner .warp .list_nav_menu ul>li:nth-child(1):hover .number0 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(2):hover .number1 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(3):hover .number2 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(4):hover .number3 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(5):hover .number4 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(6):hover .number5 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(7):hover .number6 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(8):hover .number7 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(9):hover .number8 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(10):hover .number9 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(11):hover .number10 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(12):hover .number11 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(13):hover .number12 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(14):hover .number13 {
+    display: block;
+}
+
+.banner .warp .list_nav_menu ul>li:nth-child(15):hover .number14 {
+    display: block;
+}
+
+
+/* 侧边nav hover */
+
+
+/* left */
+
+
+/* ----------center---------- */
+
+.banner .slide {
+    margin-left: 10px;
+    margin-right: 10px;
+    height: 470px;
+    width: 590px;
+}
+
+
+/* ----------center---------- */
+
+
+/* ----------right---------- */
+
+.banner .text {
+    height: 470px;
+    width: 200px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.banner .text .top {
+    width: 100%;
+    height: 100px;
+    background: #fff;
+}
+
+.banner .text .mid {
+    width: 100%;
+    height: 125px;
+    background: #fff;
+}
+
+.banner .text .bottom {
+    width: 100%;
+    height: 230px;
+    background: #fff;
+}
+
+.banner .text .top img {
+    display: block;
+    width: 40px;
+    height: 40px;
+}
+
+.banner .text .top {
+    display: flex;
+    flex-flow: column nowrap;
+}
+
+.banner .text .top .user {
+    flex: 7;
+}
+
+.banner .text .top .other {
+    flex: 3;
+    flex-flow: row nowrap;
+    margin: 0 auto;
+}
+
+.banner .text .top .other a {
+    display: inline-block;
+    margin: 0 5px;
+    width: 70px;
+    height: 25px;
+    line-height: 25px;
+    font-size: 12px;
+    text-align: center;
+    color: #fff;
+    border-radius: 13px;
+    background: #e1251b;
+}
+
+.banner .text .top .other :nth-child(2) {
+    background: #363634;
+    color: #e5d790;
+}
+
+.banner .text .top .other a:hover {
+    background: #bb271f;
+    transition: 0.8s ease;
+}
+
+.banner .text .top .user {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 10px;
+}
+
+.banner .text .top .user .userForm {
+    position: relative;
+    width: 80px;
+}
+
+.banner .text .top .user .userForm a:hover {
+    color: #e2231a;
+}
+
+.banner .text .top .user .userForm a:nth-child(1) {
+    position: absolute;
+    float: left;
+    top: -37px;
+}
+
+.banner .text .top .user>:nth-child(1) {
+    margin-left: -20px;
+    border: 2px solid #fff;
+    border-radius: 50%;
+    overflow: hidden;
+    width: 40px;
+    height: 40px;
+}
+
+.banner .text .mid .title {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-between
+}
+
+.banner .text .mid .title:nth-child(n) {
+    margin: 0px 5px 0px;
+}
+
+.banner .text .mid a:hover {
+    color: #e1251b;
+}
+
+.banner .text .mid ul {
+    height: 100px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+}
+
+.banner .text .mid ul li a span:first-child {
+    flex: 1.5;
+    height: 16px;
+    font-size: 12px;
+    width: 35px;
+    line-height: 16px;
+    text-align: center;
+    vertical-align: 0;
+    color: #e1251b;
+    background-color: rgba(225, 37, 27, .08);
+    margin-right: 6px;
+}
+
+.banner .text .mid ul li a {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+}
+
+.banner .text .mid ul li a i {
+    flex: 7;
+    line-height: 16px;
+    font-size: 12px;
+    width: 70px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.banner .text .bottom div {
+    width: 50px;
+    height: 76.6px;
+    /* border: #333 solid; */
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.banner .text .bottom {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.banner .text .bottom img {
+    display: block;
+    width: 28px;
+    height: 28px;
+    margin: 0 auto;
+}
+
+.banner .text .bottom a:hover {
+    color: #e1251b;
+    transition: 0.5s ease;
+}
+
+.banner .text .bottom a:hover img {
+    transform: scale(1.3);
+    transition: 0.5s ease;
+}
+
+
+/* ----------right---------- */
+
+
+/* ----------banner---------- */
+
+
+/* ----------second kill---------- */
+
+
+/* ----------left---------- */
+
+.seconds_kill {
+    width: 1120px;
+    height: 260px;
+    margin: 30px auto 0px;
+}
+
+.seconds_kill>.left {
+    height: 100%;
+    width: 190px;
+    background: url(../imgs/seconds\ kill.png) no-repeat;
+    float: left;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-around;
+}
+
+.seconds_kill .left h2 {
+    font-size: 30px;
+    font-weight: 700;
+    color: #fff;
+    text-align: center;
+}
+
+.seconds_kill .left div {
+    font-weight: 700;
+    font-size: 14px;
+    color: #fff;
+    text-align: center;
+}
+
+.seconds_kill .left div div {
+    margin-top: 10px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+}
+
+.seconds_kill .left div div i:nth-child(2n-1) {
+    width: 30px;
+    height: 30px;
+    background-color: #2f3430;
+    color: white;
+    font-size: 20px;
+}
+
+.seconds_kill .left div div i:nth-child(2n) {
+    width: 15px;
+    height: 15px;
+    color: white;
+    font-size: 20px;
+}
+
+
+/* ----------left---------- */
+
+
+/* ----------right---------- */
+
+.seconds_kill .right {
+    width: 790px;
+    height: 100%;
+    float: right;
+    margin-right: 130px;
+}
+
+
+/* ----------right---------- */
+
+
+/* ----------second kill---------- */
+
+
+/* ----------fix_nav---------- */
+
+.fix_nav_right {
+    width: 58px;
+    height: 408px;
+    position: fixed;
+    background-color: #fff;
+    right: 50px;
+    top: 200px;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+    align-items: center;
+}
+
+.fix_nav_right a {
+    width: 100%;
+    height: 60px;
+    font-size: 14px;
+    color: #333;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.fix_nav_right a:hover {
+    background-color: #c81623;
+    color: #ffff;
+    transition: 0.5s ease;
+}
+
+
+/* ----------fix_nav---------- */
+
+
+/* ----------recommend---------- */
+
+.recommend {
+    width: 1120px;
+    height: 300px;
+    /* border: 1px solid black;
+    background: white; */
+    margin: 10px auto 0px;
+}
+
+.recommend>div {
+    width: 1000px;
+    height: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: start;
+    background: white;
+}
+
+.recommend .title {
+    flex: 1;
+    display: flex;
+}
+
+.recommend .title ul {
+    width: 490px;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: space-evenly;
+}
+
+.recommend .title span {
+    width: 500px;
+    display: flex;
+    padding: 10px;
+    line-height: 19px;
+}
+
+.recommend .title i {
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    line-height: 14px;
+    font-size: 16px;
+    text-align: center;
+    color: #c81623;
+    border: 1px solid #c81623;
+}
+
+.recommend .title i:hover {
+    color: #ccc;
+    background-color: #c81623;
+    transition: 0.5s ease;
+}
+
+.recommend .title ul li {
+    height: 100%;
+    font-size: 14px;
+    line-height: 25px;
+}
+
+.recommend .title ul li a:hover {
+    color: #c81623;
+    border-bottom: #c81623 4px solid;
+}
+
+.recommend .good_list {
+    flex: 4;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    transition: 1s ease;
+}
+
+.recommend .goods {
+    flex: 4;
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: start;
+    transition: 1s ease;
+}
+
+.recommend .goods .left {
+    flex: 1;
+    background-color: rgba(109, 126, 146, .05);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: center;
+    align-items: center;
+}
+
+.recommend .goods .right {
+    flex: 4.6;
+}
+
+.recommend .goods .left img {
+    width: 100px;
+    height: 100px;
+}
+
+.recommend .goods .left a h5 {
+    width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.recommend .goods .right img {
+    width: 74px;
+    height: 74px;
+}
+
+.recommend .goods .right a {
+    width: 190px;
+    height: 50px;
+    display: flex;
+}
+
+.recommend .goods .right {
+    display: flex;
+    flex-flow: row wrap;
+    justify-content: start;
+}
+
+.recommend .goods .right h5 {
+    width: 100px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
+.recommend .goods .right div {
+    background-color: rgba(109, 126, 146, .05);
+    display: flex;
+    flex-flow: column nowrap;
+    justify-content: space-evenly;
+}
+
+.recommend .goods .right a:hover img {
+    opacity: 0.8;
+    transition: 0.5s ease;
+}
+
+.recommend .goods .right a:hover div {
+    color: #c81623;
+    transition: 0.5s ease;
+}
+
+.recommend .goods .left a:hover img {
+    opacity: 0.8;
+    transition: 0.5s ease;
+}
+
+.recommend .goods .left a:hover {
+    color: #c81623;
+    transition: 0.5s ease;
+}
+
+
+/* ----------recommend---------- */
