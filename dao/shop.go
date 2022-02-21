@@ -325,7 +325,7 @@ func Commit(commit models.Commit) (bool, string) {
 	if err != nil {
 		return false, "评论提交失败"
 	}
-	_, err = stm.Exec(uid)
+	_, err = stm.Exec(gid)
 	if err != nil {
 		return false, "评论提交失败"
 	}
