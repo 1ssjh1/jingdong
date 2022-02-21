@@ -93,6 +93,7 @@ func Chart(c *gin.Context) {
 
 func Update(c *gin.Context) {
 	var chart models.ShopChart
+
 	err := c.ShouldBind(&chart)
 	if err != nil {
 		c.JSON(200, gin.H{
@@ -101,6 +102,9 @@ func Update(c *gin.Context) {
 		})
 		return
 	}
+	//chart.Count = c.PostForm("count")
+	//chart.ChartId = c.PostForm("chart_id")
+	fmt.Println(chart)
 	Info, exist := c.Get("Info")
 	if !exist {
 		c.JSON(200, gin.H{
@@ -120,7 +124,7 @@ func Update(c *gin.Context) {
 	chart.BasicInfo = BasicInfo
 
 	//这里后面改一下
-
+	fmt.Println(chart)
 	ok, state := dao.UpdateChart(chart)
 	c.JSON(200, gin.H{
 		"state": ok,
@@ -174,6 +178,7 @@ func MakeOrder(c *gin.Context) {
 		})
 		return
 	}
+	//Oder.ChartId = c.PostFormArray("chart_id")
 	Info, exist := c.Get("Info")
 	if !exist {
 		c.JSON(200, gin.H{
@@ -190,6 +195,7 @@ func MakeOrder(c *gin.Context) {
 		return
 	}
 	Oder.BasicInfo = BasicInfo
+	fmt.Println(Oder.ChartId)
 	ok, state := dao.MakeOrder(Oder)
 	c.JSON(200, gin.H{
 		"state": ok,
