@@ -3,7 +3,6 @@ package utils
 import (
 	"JD/models"
 	"encoding/json"
-	"fmt"
 	"io/ioutil"
 	"math/rand"
 	"net/http"
@@ -19,7 +18,6 @@ func GetNews() (*models.News, error) {
 	var News models.News
 	resp, _ := clients.Do(req)
 	info, _ := ioutil.ReadAll(resp.Body)
-	fmt.Println(resp.StatusCode)
 	err := json.Unmarshal(info, &News)
 	if err != nil {
 		return nil, err

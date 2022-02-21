@@ -3,7 +3,6 @@ package dao
 import (
 	"JD/models"
 	"errors"
-	"fmt"
 	"sync"
 )
 
@@ -24,7 +23,6 @@ func AllShops() *models.UserAllGoods {
 		for rows.Next() {
 			err := rows.Scan(&templebasicinfo.Gid, &templebasicinfo.Name, &templebasicinfo.Url, &templebasicinfo.Type)
 			if err != nil {
-				fmt.Println(err, "fw")
 
 			}
 			templebasicinfo.Url = "https://sanser.ltd/static/" + templebasicinfo.Url
@@ -32,7 +30,6 @@ func AllShops() *models.UserAllGoods {
 		}
 	}()
 	// 嘿嘿 开始蹩脚并发
-	fmt.Println(AllShop)
 	s := sync.WaitGroup{}
 	stms, err := DB.Prepare("select sales,commit,Grate ,introduce ,price from goods_info where Gid =?")
 	chanel_1 := make(chan int, len(AllShop.All))
@@ -55,7 +52,6 @@ func AllShops() *models.UserAllGoods {
 				err = row.Scan(&temple.Sales, &temple.Commit, &temple.Grate, &temple.Introduce, &temple.Price)
 				AllShop.All[k].Goods = temple
 				if err != nil {
-					fmt.Println(err, "ger")
 				}
 				s.Done()
 			}
@@ -98,7 +94,6 @@ func MakeOrder(order models.Order) (bool, string) {
 	}
 	stm, err = tx.Prepare("insert into user_order(uid,gid,count) values (?,?,?)")
 	if err != nil {
-		fmt.Println(err)
 		tx.Rollback()
 		return false, "订单创建失败"
 	}
@@ -106,7 +101,6 @@ func MakeOrder(order models.Order) (bool, string) {
 	allinfo := make([]models.ChartShop, 0, 1)
 	stm1, err := tx.Prepare("select gid ,Count from shop_chart where chart_id =?")
 	if err != nil {
-		fmt.Println(err)
 		tx.Rollback()
 		return false, "订单创建失败"
 
@@ -114,7 +108,6 @@ func MakeOrder(order models.Order) (bool, string) {
 	for _, value := range order.ChartId {
 		err = stm1.QueryRow(value).Scan(&Temp.Gid, &Temp.Count)
 		if err != nil {
-			fmt.Println(err)
 			tx.Rollback()
 			return false, "订单创建失败"
 
@@ -122,7 +115,6 @@ func MakeOrder(order models.Order) (bool, string) {
 		_, err = stm.Exec(order.Uid, Temp.Gid, Temp.Count)
 		allinfo = append(allinfo, Temp)
 		if err != nil {
-			fmt.Println(err)
 			tx.Rollback()
 			return false, "订单创建失败"
 
@@ -130,7 +122,6 @@ func MakeOrder(order models.Order) (bool, string) {
 	}
 	stm, err = tx.Prepare("delete from shop_chart where chart_id=?")
 	if err != nil {
-		fmt.Println(err)
 		tx.Rollback()
 		return false, "订单创建失败"
 
@@ -139,7 +130,6 @@ func MakeOrder(order models.Order) (bool, string) {
 		_, err = stm.Exec(v)
 		if err != nil {
 
-			fmt.Println(err)
 			tx.Rollback()
 			return false, "订单创建失败"
 		}
@@ -148,17 +138,14 @@ func MakeOrder(order models.Order) (bool, string) {
 	stm, err = tx.Prepare("select price from goods_info where  Gid=?")
 	if err != nil {
 
-		fmt.Println(err, "4")
 		tx.Rollback()
 		return false, "订单创建失败"
 	}
 	var allprice float64
 	var tempv float64
 	for _, v := range allinfo {
-		fmt.Println(v)
 		err = stm.QueryRow(v.Gid).Scan(&tempv)
 		if err != nil {
-			fmt.Println(err, "3")
 			tx.Rollback()
 			return false, "订单创建失败"
 		}
@@ -168,14 +155,12 @@ func MakeOrder(order models.Order) (bool, string) {
 	stm, err = tx.Prepare("select balance from user_info where uid=?")
 	if err != nil {
 
-		fmt.Println(err, "2")
 		tx.Rollback()
 		return false, "订单创建失败"
 	}
 	err = stm.QueryRow(order.Uid).Scan(&tempv)
 	if err != nil {
 
-		fmt.Println(err, "1")
 		tx.Rollback()
 		return false, "订单创建失败"
 	}
@@ -186,14 +171,24 @@ func MakeOrder(order models.Order) (bool, string) {
 	stm, err = tx.Prepare("update user_info set balance =? where uid=?")
 	if err != nil {
 
-		fmt.Println(err)
 		tx.Rollback()
 		return false, "订单创建失败"
 	}
 	_, err = stm.Exec(tempv-allprice, order.Uid)
 	if err != nil {
 
-		fmt.Println(err, "5")
+		tx.Rollback()
+		return false, "订单创建失败"
+	}
+	stm, err = tx.Prepare("update goods_info set sales=sales+1 where GId=?")
+	if err != nil {
+
+		tx.Rollback()
+		return false, "订单创建失败"
+	}
+	_, err = stm.Exec(Temp.Gid)
+	if err != nil {
+
 		tx.Rollback()
 		return false, "订单创建失败"
 	}
@@ -215,8 +210,7 @@ func AllOrder(user models.User) (bool, *models.UserOrder) {
 	var all models.UserOrder
 	all.BasicInfo = user.BasicInfo
 	for row.Next() {
-		err := row.Scan(&temple.Oid, &temple.State, &temple.Gid, &temple.Count)
-		fmt.Println(err)
+		row.Scan(&temple.Oid, &temple.State, &temple.Gid, &temple.Count)
 		all.Allorder = append(all.Allorder, temple)
 	}
 	return true, &all
@@ -224,13 +218,11 @@ func AllOrder(user models.User) (bool, *models.UserOrder) {
 func UpdateOrder(order models.UpdateOrder) error {
 	stm, err := DB.Prepare("select state from user_order where oid =?")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("失败")
 		return err
 	}
 	var Orderstate string
 	err = stm.QueryRow(order.Oid).Scan(&Orderstate)
-	fmt.Println(Orderstate)
 	if Orderstate == "已支付" {
 		err = errors.New("还未发货 着啥急")
 		return err
@@ -242,7 +234,6 @@ func UpdateOrder(order models.UpdateOrder) error {
 	}
 	_, err = stm.Exec("已完成", order.Oid)
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("失败")
 		return err
 	}
@@ -292,9 +283,8 @@ func DeleteOrder(order models.UpdateOrder) error {
 	return nil
 }
 func Commit(commit models.Commit) (bool, string) {
-	stm, err := DB.Prepare("select uid  ,state,gid from user_order where oid =?")
+	stm, err := DB.Prepare("select uid ,state,gid from user_order where oid =?")
 	if err != nil {
-		fmt.Println(err)
 		return false, "评论提交失败"
 	}
 	var (
@@ -304,21 +294,35 @@ func Commit(commit models.Commit) (bool, string) {
 	)
 	err = stm.QueryRow(commit.Oid).Scan(&uid, &state, &gid)
 	if err != nil {
-		fmt.Println(err)
 		return false, "评论提交失败"
 	}
 	if uid != commit.Uid || state != "已完成" {
 		return false, "商品状态错误"
 	}
-	stm, err = DB.Prepare("insert into goods_commit (Gid,oid,commit) values (?,?,?)")
+	stm, err = DB.Prepare("select cid from goods_commit where oid=?")
 	if err != nil {
-		fmt.Println(err)
 		return false, "评论提交失败"
 	}
-	fmt.Println(commit.Commit)
+	var commitID int
+	stm.QueryRow(commit.Oid).Scan(&commitID)
+
+	if commitID != 0 {
+		return false, "您已经评论过了"
+	}
+	stm, err = DB.Prepare("insert into goods_commit (Gid,oid,commit) values (?,?,?)")
+	if err != nil {
+		return false, "评论提交失败"
+	}
 	_, err = stm.Exec(gid, commit.Oid, commit.Commit)
 	if err != nil {
-		fmt.Println(err)
+		return false, "评论提交失败"
+	}
+	stm, err = DB.Prepare("update goods_info set commit=commit+1 where GId=?")
+	if err != nil {
+		return false, "评论提交失败"
+	}
+	_, err = stm.Exec(uid)
+	if err != nil {
 		return false, "评论提交失败"
 	}
 	return true, "评论提价成功"
@@ -354,7 +358,6 @@ func GetCommit(commit models.Commits) *models.AllCommit {
 func Class() (*models.AllShop, error) {
 	stm, err := DB.Prepare("select type from goods_class")
 	if err != nil {
-		fmt.Println(err, "1")
 
 		err = errors.New("查询失败")
 		return nil, err
@@ -362,7 +365,6 @@ func Class() (*models.AllShop, error) {
 	var all models.AllShop
 	row, err := stm.Query()
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("查询失败")
 		return nil, err
@@ -371,7 +373,6 @@ func Class() (*models.AllShop, error) {
 	for row.Next() {
 		err = row.Scan(&onetype.Type)
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("查询失败")
 			return nil, err
@@ -401,15 +402,12 @@ func Class() (*models.AllShop, error) {
 			for row.Next() {
 				err = row.Scan(&temple.Gid, &temple.Name, &temple.Url)
 				if err != nil {
-					fmt.Println(err)
 					err = errors.New("查询失败")
 				}
-				fmt.Println(temple)
 				temple.Url = "https://sanser.ltd/static/" + temple.Url
 
 				all.All[n].Goods = append(all.All[n].Goods, temple)
 
-				fmt.Println(all.All[n].Goods[0])
 			}
 			s.Done()
 
@@ -424,7 +422,6 @@ func Class() (*models.AllShop, error) {
 			var temple models.Goods
 			row, err = stm.Query(n.Gid)
 			if err != nil {
-				fmt.Println(err)
 
 				err = errors.New("查询失败")
 				return nil, err
@@ -432,16 +429,13 @@ func Class() (*models.AllShop, error) {
 			for row.Next() {
 				err = row.Scan(&temple.Sales, &temple.Commit, &temple.Grate, &temple.Introduce, &temple.Price)
 				if err != nil {
-					fmt.Println(err)
 					err = errors.New("查询失败")
 					return nil, err
 				}
-				fmt.Println(temple)
 				all.All[k].Goods[m].Goods = temple
 			}
 		}
 	}
-	fmt.Println("m", all.All)
 	return &all, nil
 
 }

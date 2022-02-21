@@ -4,13 +4,11 @@ import (
 	"JD/dao"
 	"JD/models"
 	"JD/utils"
-	"fmt"
 	"github.com/gin-gonic/gin"
 )
 
 func SendMessage(c *gin.Context) {
 	number := c.Query("Phone")
-	fmt.Println(number)
 	//调用工具发送短信
 	err := utils.Sendsms(number)
 	if err != nil {

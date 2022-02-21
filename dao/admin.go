@@ -3,7 +3,6 @@ package dao
 import (
 	"JD/models"
 	"JD/utils"
-	"fmt"
 	"os"
 	// "JD/utils"
 	// "JD/utils"
@@ -18,13 +17,11 @@ func GetAllOrder() (*models.AllInfo, error) {
 	var AllInfo models.AllInfo
 	stm, err := DB.Prepare("select State from Order_state_type")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("数据查询失败")
 		return nil, err
 	}
 	row, err := stm.Query()
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("数据查询失败")
 		return nil, err
@@ -33,13 +30,11 @@ func GetAllOrder() (*models.AllInfo, error) {
 	for row.Next() {
 		err := row.Scan(&templeAll.State)
 		if err != nil {
-			fmt.Println(err)
 
 			if err == sql.ErrNoRows {
 				//do nothing
 			} else {
 				err = errors.New("数据查询失败")
-				fmt.Println(err)
 
 				return nil, err
 			}
@@ -48,7 +43,6 @@ func GetAllOrder() (*models.AllInfo, error) {
 	}
 	var OneOrder models.OneOrder
 	stm, err = DB.Prepare("select oid ,uid ,gid ,count from user_order where state=?")
-	fmt.Println(err)
 
 	if err != nil {
 		err = errors.New("数据查询失败")
@@ -57,7 +51,6 @@ func GetAllOrder() (*models.AllInfo, error) {
 	for key, value := range AllInfo.All {
 		row, err = stm.Query(value.State)
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据查询失败")
 			return nil, err
@@ -65,7 +58,6 @@ func GetAllOrder() (*models.AllInfo, error) {
 		for row.Next() {
 			err = row.Scan(&OneOrder.Oid, &OneOrder.Uid, &OneOrder.Gid, &OneOrder.Count)
 			if err != nil {
-				fmt.Println(err)
 
 				err = errors.New("数据查询失败")
 				return nil, err
@@ -121,14 +113,12 @@ func DeleteUserOrder(update models.UpdateUserOrder) (string, error) {
 func AddGoods(goods models.GoodsAdd, c *gin.Context) (string, error) {
 	tx, err := DB.Begin()
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品添添加失败 请重试")
 		return "", err
 	}
 	stm, err := tx.Prepare("insert into goods_info(introduce,price) values (?,?)")
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品添添加失败 请重试")
 		tx.Rollback()
@@ -137,13 +127,11 @@ func AddGoods(goods models.GoodsAdd, c *gin.Context) (string, error) {
 	}
 	_, err = stm.Exec(goods.Introduce, goods.Price)
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("商品添添加失败 请重试")
 		return "", err
 	}
 	url, err := utils.SaveFile(goods.Image, c)
 	if err != nil {
-		fmt.Println(err)
 
 		//err = errors.New("商品添添加失败 请重试")
 		tx.Rollback()
@@ -151,14 +139,12 @@ func AddGoods(goods models.GoodsAdd, c *gin.Context) (string, error) {
 	}
 	stm, err = tx.Prepare("insert into goods_list(name,url,type) values (?,?,?)")
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品添添加失败 请重试")
 		return "", err
 	}
 	_, err = stm.Exec(goods.Gname, url, goods.Category)
 	if err != nil {
-		fmt.Println(err)
 
 		tx.Rollback()
 		err = errors.New("商品添添加失败 请重试")
@@ -171,14 +157,12 @@ func AddGoods(goods models.GoodsAdd, c *gin.Context) (string, error) {
 func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 	tx, err := DB.Begin()
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("数据更新失败 请稍后重试")
 		return "", err
 	}
 	if goods.Image != nil {
 		stm, err := DB.Prepare("select url from goods_list where Gid=?")
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			return "", err
@@ -186,21 +170,18 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 		var ToDelete string
 		err = stm.QueryRow(goods.Gid).Scan(&ToDelete)
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			return "", err
 		}
 		err = os.Remove("/www/static/" + ToDelete)
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			return "", err
 		}
 		url, err := utils.SaveFile(goods.Image, c)
 		if err != nil {
-			fmt.Println(err)
 
 			tx.Rollback()
 			err = errors.New("数据更新失败 请稍后重试")
@@ -209,7 +190,6 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 		}
 		stm, err = tx.Prepare("update goods_list set url =? where Gid =?")
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			tx.Rollback()
@@ -217,7 +197,6 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 		}
 		_, err = stm.Exec(url, goods.Gid)
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			tx.Rollback()
@@ -227,7 +206,6 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 	if goods.Gname != "" {
 		stm, err := tx.Prepare("update goods_list set name =? where Gid=?")
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			tx.Rollback()
@@ -235,7 +213,6 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 		}
 		_, err = stm.Exec(goods.Gname, goods.Gid)
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			return "", err
@@ -244,7 +221,6 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 	if goods.Introduce != "" {
 		stm, err := tx.Prepare("update goods_info set introduce =? where Gid=?")
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			tx.Rollback()
@@ -252,7 +228,6 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 		}
 		_, err = stm.Exec(goods.Gname, goods.Gid)
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			return "", err
@@ -261,7 +236,6 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 	if goods.Price != 0 {
 		stm, err := tx.Prepare("update goods_info set price =? where Gid=?")
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			tx.Rollback()
@@ -269,7 +243,6 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 		}
 		_, err = stm.Exec(goods.Price, goods.Gid)
 		if err != nil {
-			fmt.Println(err)
 
 			err = errors.New("数据更新失败 请稍后重试")
 			return "", err
@@ -288,7 +261,6 @@ func UpdateGoods(goods models.UpdateGoods, c *gin.Context) (string, error) {
 func DeleteGoods(gid string) (string, error) {
 	tx, err := DB.Begin()
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
@@ -298,14 +270,12 @@ func DeleteGoods(gid string) (string, error) {
 
 	stm, err := DB.Prepare("delete from goods_commit where Gid=?")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
 		return "", err
 	}
 	_, err = stm.Exec(gid)
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
@@ -313,14 +283,12 @@ func DeleteGoods(gid string) (string, error) {
 	}
 	stm, err = tx.Prepare("delete from shop_chart where gid=?")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
 		return "", err
 	}
 	_, err = stm.Exec(gid)
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
@@ -328,14 +296,12 @@ func DeleteGoods(gid string) (string, error) {
 	}
 	stm, err = tx.Prepare("delete from goods_info where GId=?")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
 		return "", err
 	}
 	_, err = stm.Exec(gid)
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
@@ -344,7 +310,6 @@ func DeleteGoods(gid string) (string, error) {
 	stm, err = DB.Prepare("select url from goods_list where Gid =?")
 	var link string
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
@@ -353,7 +318,6 @@ func DeleteGoods(gid string) (string, error) {
 	err = stm.QueryRow(gid).Scan(&link)
 	err = os.Remove("/www/static/" + link)
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
@@ -361,7 +325,6 @@ func DeleteGoods(gid string) (string, error) {
 	}
 	stm, err = tx.Prepare("delete  from goods_list where Gid =?")
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()
@@ -369,7 +332,6 @@ func DeleteGoods(gid string) (string, error) {
 	}
 	_, err = stm.Exec(gid)
 	if err != nil {
-		fmt.Println(err)
 
 		err = errors.New("商品删除失败 再试试吧")
 		tx.Rollback()

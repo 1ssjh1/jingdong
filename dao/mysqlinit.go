@@ -3,7 +3,6 @@ package dao
 import (
 	"JD/utils"
 	"database/sql"
-	"fmt"
 	_ "github.com/go-sql-driver/mysql"
 )
 
@@ -16,7 +15,6 @@ func MysqlInit() *sql.DB {
 
 	//err = db.Ping()
 	if err != nil {
-		fmt.Println(err)
 	}
 	db.SetMaxIdleConns(10)
 	//defer db.Close()

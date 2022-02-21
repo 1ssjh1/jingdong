@@ -3,7 +3,6 @@ package dao
 import (
 	"JD/models"
 	"errors"
-	"fmt"
 	"os"
 )
 
@@ -11,14 +10,12 @@ func Register(name string, word string, number string) error {
 	var U models.Register
 	stm, err := DB.Prepare("select  name from user_info where name = ?")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("注册失败")
 		return err
 	}
 	defer stm.Close()
 	rows, err := stm.Query(&name)
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("注册失败")
 		return err
 	}
@@ -32,14 +29,12 @@ func Register(name string, word string, number string) error {
 	}
 	stm, err = DB.Prepare("select  number from user_info where number = ?")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("注册失败")
 		return err
 	}
 	defer stm.Close()
 	rows, err = stm.Query(&number)
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("注册失败")
 		return err
 	}
@@ -53,13 +48,11 @@ func Register(name string, word string, number string) error {
 	}
 	stm, err = DB.Prepare("insert into user_info(name,word,number) values(?,?,?);")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("注册失败")
 		return err
 	}
 	_, err = stm.Exec(name, word, number)
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("注册失败")
 		return err
 	}
@@ -101,7 +94,6 @@ func Find(user models.Register) error {
 func Login(u models.Login) (*models.BasicInfo, error) {
 	stm, err := DB.Prepare("select uid, word from user_info where name = ?")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("登录失败")
 		return nil, err
 	}
@@ -109,7 +101,6 @@ func Login(u models.Login) (*models.BasicInfo, error) {
 	var basicinfo models.BasicInfo
 	rows, err := stm.Query(u.Username)
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("登录失败")
 		return nil, err
 	}
@@ -158,7 +149,11 @@ func SaveFile(url string, user models.BasicInfo) (string, error) {
 	}
 	var link string
 	err = stm.QueryRow(user.Uid).Scan(&link)
-	err = os.Remove("./static/" + link)
+	if link == "default.png" {
+
+	} else {
+		err = os.Remove("./static/" + link)
+	}
 	stm, err = DB.Prepare("update user_info set image=? where uid=? ")
 	if err != nil {
 		err := errors.New("文件上传失败")
@@ -215,7 +210,6 @@ func ChargeBalance(u models.Balance) (bool, string) {
 func AddChart(chart models.AddChart) (string, error) {
 	stm, err := DB.Prepare("select gid from shop_chart where uid=?")
 	if err != nil {
-		fmt.Println(err)
 		err := errors.New("操作失败")
 		return "", err
 	}
@@ -232,14 +226,13 @@ func AddChart(chart models.AddChart) (string, error) {
 
 	stm, err = DB.Prepare(" insert into shop_chart(uid,gid,count) values(?,?,?)")
 	if err != nil {
-		fmt.Println(err, "fod")
+
 		err := errors.New("操作失败")
 
 		return "", err
 	}
 	_, err = stm.Exec(chart.Uid, chart.Gid, chart.Count)
 	if err != nil {
-		fmt.Println(err)
 		err := errors.New("操作失败")
 
 		return "", err
@@ -252,13 +245,11 @@ func AllChart(user models.Userinfo) (*models.AllChart, error) {
 	all.BasicInfo = user.BasicInfo
 	stm, err := DB.Prepare("select chart_id,gid,count from shop_chart where uid=? ")
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("查询失败")
 		return nil, err
 	}
 	rows, err := stm.Query(all.Uid)
 	if err != nil {
-		fmt.Println(err)
 		err = errors.New("查询失败")
 		return nil, err
 	}
@@ -282,7 +273,6 @@ func UpdateChart(chart models.ShopChart) (bool, string) {
 		var Temple models.ShopChart
 		err = stm.QueryRow(chart.ChartId).Scan(&Temple.Uid)
 		if err != nil {
-			fmt.Println(err)
 			return false, "失败 呜呜呜"
 		}
 		if Temple.Uid != chart.Uid {
@@ -309,7 +299,6 @@ func UpdateChart(chart models.ShopChart) (bool, string) {
 		err = row.Scan(&Temple.Uid)
 	}
 	if err != nil {
-		fmt.Println(err, "+1")
 		return false, "失败  没有查到该订单"
 	}
 	if Temple.Uid != chart.Uid {
@@ -317,10 +306,8 @@ func UpdateChart(chart models.ShopChart) (bool, string) {
 	}
 	stm, err = DB.Prepare("update shop_chart set Count =?  where chart_id=? ")
 	if err != nil {
-		fmt.Println(err)
 		return false, "失败 怎那么就失败呢"
 	}
-	fmt.Println(chart)
 	_, err = stm.Exec(chart.Count, chart.ChartId)
 	if err != nil {
 		return false, "失败 怎么就是白呢"

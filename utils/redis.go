@@ -2,7 +2,6 @@ package utils
 
 import (
 	"errors"
-	"fmt"
 	"github.com/gomodule/redigo/redis"
 )
 
@@ -44,7 +43,6 @@ func SetToken(token string) bool {
 	//与token 验证时间一致
 	_, err := redis.String(c.Do("SET", token, "", "EX", 1800))
 	if err != nil {
-		fmt.Println(err)
 		return false
 	}
 	return true

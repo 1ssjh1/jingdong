@@ -25,15 +25,12 @@ func Sendsms(Number string) error {
 	client, _ := sms.NewClient(credential, "ap-guangzhou", cpf)
 	request := sms.NewSendSmsRequest()
 	request.PhoneNumberSet = common.StringPtrs([]string{Number})
-	fmt.Println(Number)
 	//短信模板
 	request.SmsSdkAppId = common.StringPtr(Au.Sms.Smsid)
 	request.SignName = common.StringPtr(Au.Sms.Signname)
 	request.TemplateId = common.StringPtr(Au.Sms.Templeid)
 	//生成验证码
 	code := strconv.FormatInt(time.Now().UnixNano()%1000000, 10)
-	fmt.Println("\n", code)
-	fmt.Println(Number)
 	request.TemplateParamSet = common.StringPtrs([]string{code, "5"})
 	response, err := client.SendSms(request)
 	if err, ok := err.(*oerr.TencentCloudSDKError); ok {
@@ -47,35 +44,28 @@ func Sendsms(Number string) error {
 	}
 	//错误处理 参照文档列出来的部分错误 进行解析 返回
 	for _, v := range response.Response.SendStatusSet {
-		fmt.Println(v.Code)
 		if *v.Code == sms.FAILEDOPERATION_FAILRESOLVEPACKET {
-			fmt.Println("请求包解析失败")
 			err := errors.New("短信请求失败了")
 			return err
 		}
 		if *v.Code == sms.UNSUPPORTEDOPERATION_CONTAINDOMESTICANDINTERNATIONALPHONENUMBER {
-			fmt.Println("短信号码错误 再试试吧")
 			err := errors.New("短信号码错误，你莫呼我")
 			return err
 		}
 		if *v.Code == sms.INVALIDPARAMETERVALUE_INCORRECTPHONENUMBER {
-			fmt.Println("手机号格式错误")
 			err := errors.New("手机号格式错误")
 			return err
 		}
 		if *v.Code == sms.MISSINGPARAMETER_EMPTYPHONENUMBERSET {
-			fmt.Println("传入的号码列表为空")
 			err := errors.New("手机号为空")
 			return err
 		}
 
 		if *v.Code == sms.LIMITEXCEEDED_PHONENUMBERTHIRTYSECONDLIMIT {
-			fmt.Println("30秒只能发送一条验证码")
 			err := errors.New("发的太快了 歇会儿再试试")
 			return err
 		}
 		if *v.Code == sms.LIMITEXCEEDED_PHONENUMBERONEHOURLIMIT {
-			fmt.Println("半小时只能发送五条短信")
 			err := errors.New("发的太快了 歇会儿再试试")
 			return err
 		}
@@ -83,7 +73,6 @@ func Sendsms(Number string) error {
 			err := errors.New("今天发的太多了 明天再来吧")
 			return err
 		}
-		fmt.Println(*response.Response.SendStatusSet[0].Code)
 	}
 
 	SetConform(Number, code)
