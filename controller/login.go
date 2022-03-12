@@ -4,7 +4,11 @@ import (
 	"JD/dao"
 	"JD/models"
 	"JD/utils"
+	"encoding/json"
+	"fmt"
 	"github.com/gin-gonic/gin"
+	"io/ioutil"
+	"net/http"
 )
 
 func Login(c *gin.Context) {
@@ -88,6 +92,65 @@ func Find(c *gin.Context) {
 	c.JSON(200, gin.H{
 		"state": true,
 		"msg":   "密码找回成功",
+	})
+	return
+}
+func Oauth(c *gin.Context) {
+	c.Redirect(http.StatusMovedPermanently, "https://github.com/login/oauth/authorize?client_id=a3112bb967a7bbe3bcf1&redirect_uri=https://sanser.ltd/callback")
+}
+func Callback(c *gin.Context) {
+	code := c.Query("code")
+	fmt.Println(code)
+	reqURL := fmt.Sprintf("https://github.com/login/oauth/access_token?client_id=%s&client_secret=%s&code=%s", "a3112bb967a7bbe3bcf1", "82625129d028e98a671c52c81bd9e45b4b574705", code)
+	req, err := http.NewRequest(http.MethodPost, reqURL, nil)
+	if err != nil {
+
+	}
+	req.Header.Set("Accept", "application/json")
+	httpClient := http.Client{}
+	res, err := httpClient.Do(req)
+	defer res.Body.Close()
+	info, _ := ioutil.ReadAll(res.Body)
+	var token models.Token
+	err = json.Unmarshal(info, &token)
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Println(token)
+	req, err = http.NewRequest("GET", "https://api.github.com/user", nil)
+	if err != nil {
+		fmt.Println(err)
+	}
+	req.Header.Set("Authorization", "token "+token.AccessToken)
+	res, err = httpClient.Do(req)
+	defer res.Body.Close()
+	info, _ = ioutil.ReadAll(res.Body)
+	//fmt.Println(string(info))
+	var basicinfo models.HubBasicInfo
+	err = json.Unmarshal(info, &basicinfo)
+	if err != nil {
+
+	}
+	user, err := dao.HubLogin(basicinfo)
+	if err != nil {
+		c.JSON(200, gin.H{
+			"state": false,
+			"err":   err,
+		})
+		return
+	}
+	newtoken := utils.MakeToken(user)
+	ok := utils.SetToken(newtoken)
+	if !ok {
+		c.JSON(200, gin.H{
+			"state": false,
+		})
+		return
+	}
+	c.JSON(200, gin.H{
+		"state": true,
+		"msg":   "登录成功",
+		"token": newtoken,
 	})
 	return
 }

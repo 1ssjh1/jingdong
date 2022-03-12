@@ -2,7 +2,9 @@ package dao
 
 import (
 	"JD/models"
+	"database/sql"
 	"errors"
+	"fmt"
 	"os"
 )
 
@@ -91,9 +93,28 @@ func Find(user models.Register) error {
 	return nil
 
 }
+func HubLogin(user models.HubBasicInfo) (models.BasicInfo, error) {
+	stm, err := DB.Prepare("select uid ,name from user_info where hub_id=?")
+	var info models.BasicInfo
+
+	if err != nil {
+		err := errors.New("登录失败")
+		return info, err
+	}
+	row, err := stm.Query(user.ID)
+	for row.Next() {
+		err = row.Scan(&info.Uid, info.Username)
+		if err == sql.ErrNoRows {
+			err = errors.New("该用户未注册")
+			return info, err
+		}
+	}
+	return info, nil
+}
 func Login(u models.Login) (*models.BasicInfo, error) {
 	stm, err := DB.Prepare("select uid, word from user_info where name = ?")
 	if err != nil {
+		fmt.Println(err)
 		err = errors.New("登录失败")
 		return nil, err
 	}
@@ -101,6 +122,7 @@ func Login(u models.Login) (*models.BasicInfo, error) {
 	var basicinfo models.BasicInfo
 	rows, err := stm.Query(u.Username)
 	if err != nil {
+		fmt.Println(err)
 		err = errors.New("登录失败")
 		return nil, err
 	}

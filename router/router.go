@@ -22,6 +22,9 @@ func Entrance() {
 	r.POST("/register", controller.Register)
 	//登录接口
 	r.POST("/login", controller.Login)
+	//github 登录
+	r.GET("/oauth", controller.Oauth)
+	r.GET("/callback", controller.Callback)
 	//找回密码
 	r.POST("/find", controller.Find)
 	//登出接口
@@ -67,6 +70,7 @@ func Entrance() {
 
 	admin := r.Group("/admin")
 	{
+
 		//登录
 		admin.POST("/login", controller.RootLogin)
 		//展示所有订单 也写个分类吧
